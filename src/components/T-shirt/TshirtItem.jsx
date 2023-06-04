@@ -1,6 +1,6 @@
 import styled from 'styled-components'
 import { Link } from 'react-router-dom'
-import bgimage from '../../assets/bg-image.png'
+import bgImage from '../../assets/bgImage.png'
 import quickViewIcon from '../../assets/icons/quick-view.svg'
 import { useEffect, useState } from 'react'
 
@@ -20,7 +20,7 @@ const TshirtItem = ({
   colors,
   type,
 }) => {
-  const [src, setSrc] = useState(bgimage)
+  const [src, setSrc] = useState(bgImage)
   const [isHover, setIsHovered] = useState(false)
   const dispatch = useDispatch()
 
