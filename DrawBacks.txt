@@ -1,0 +1,4 @@
+1. Failed to Update the Products.(update in firebase)
+2. When Admin delete the Products it gets deleted in firebase document but images are not deleted from Storage.
+3. When User completes his/her order inStock field is not reduced from document .
+4. User Cart Items failed to store in firebase thus local storage is used which also means different users will have same same cart Items if different users are using the same Browswer.

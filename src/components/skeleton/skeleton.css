@@ -1,0 +1,79 @@
+.sk {
+  background-color: #ddd;
+  margin: 1.6rem 0;
+  border-radius: 4px;
+}
+.sk.title {
+  width: 50%;
+  height: 1rem;
+}
+.sk.review {
+  width: 50%;
+  height: 1rem;
+  margin: 1.6rem auto !important;
+}
+.sk.text {
+  width: 100%;
+  height: 1rem;
+}
+.sk.image {
+  width: 100%;
+  height: 33rem;
+}
+.sk.avatarTitle {
+  width: 5.6rem;
+  height: 0.8rem;
+}
+
+.sk.order {
+  width: 100%;
+  height: 5rem;
+}
+
+.sk.fallback {
+  width: 100%;
+  height: 5rem;
+}
+.sk.profile-avatar {
+  border-radius: 50%;
+  overflow: hidden;
+  height: 27rem;
+}
+
+.sk.avatar {
+  margin: 0;
+}
+/* shimmer */
+
+.sk-wrapper {
+  position: relative;
+  overflow: hidden;
+}
+.shimmer-wrapper {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  animation: skloading 2.5s infinite;
+}
+
+.shimmer {
+  width: 50%;
+  height: 100%;
+  background: rgba(255, 255, 255, 0.4);
+  transform: skewX(-20deg);
+  box-shadow: 0 0 3rem 3rem rgba(255, 255, 255, 0.05);
+}
+
+@keyframes skloading {
+  0% {
+    transform: translateX(-150%);
+  }
+  60% {
+    transform: translateX(-60%);
+  }
+  100% {
+    transform: translateX(150%);
+  }
+}
