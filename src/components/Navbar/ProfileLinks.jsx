@@ -1,7 +1,7 @@
 import styled from 'styled-components'
 import { Link } from 'react-router-dom'
 import { useEffect, useRef, useState } from 'react'
-import { dropdown, bg } from '../../assets/Navbar'
+import { dropdown, bgImage } from '../../assets/Navbar'
 import { useLogout } from '../../hooks/useLogout'
 import { useAuthContext } from '../../hooks/useAuthContext'
 
@@ -25,7 +25,7 @@ const ProfileLinks = () => {
         <p>Hi, {user.displayName}</p>
         <div className='avatar' onClick={() => setShowDropdown(!showDropdown)}>
           <img
-            src={loading ? bg : user.photoURL}
+            src={loading ? bgImage : user.photoURL}
             alt='profile'
             className='avatar-icon'
           />
