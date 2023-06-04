@@ -20,15 +20,15 @@ const TshirtItem = ({
   colors,
   type,
 }) => {
-  const [src, setSrc] = useState(bgimage)
+  // const [src, setSrc] = useState(bgimage)
   const [isHover, setIsHovered] = useState(false)
   const dispatch = useDispatch()
 
-  useEffect(() => {
-    setTimeout(() => {
-      setSrc(images[0])
-    }, 100)
-  }, [])
+  // useEffect(() => {
+  //   setTimeout(() => {
+  //     setSrc(images[0])
+  //   }, 100)
+  // }, [])
 
   const mouseEnterHandler = () => {
     setIsHovered(true)
@@ -52,7 +52,7 @@ const TshirtItem = ({
           <div className='img-container'>
             {images.map((img, index) => (
               <img
-                src={src}
+                src={img.images[0]}
                 alt='img'
                 key={index}
                 className='w-100 h-100 t-shirt-img'
