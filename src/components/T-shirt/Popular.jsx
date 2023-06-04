@@ -24,7 +24,6 @@ const Popular = ({ type }) => {
     }
   }, [response.success])
 
-  let load = true
   return (
     <PopularWrapper className='popular-tshirts mtb-l '>
       <div className='container-sw'>
