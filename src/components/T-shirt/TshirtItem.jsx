@@ -1,6 +1,6 @@
 import styled from 'styled-components'
 import { Link } from 'react-router-dom'
-import bgimage from '../../assets/bg-image.png'
+
 import quickViewIcon from '../../assets/icons/quick-view.svg'
 import { useEffect, useState } from 'react'
 
