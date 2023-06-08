@@ -11,7 +11,6 @@ const messageSlice = createSlice({
   initialState,
   reducers: {
     OPEN_MESSAGE(state, action) {
-      console.log(action.payload)
       state.showMsg = true
       state.text = action.payload.text
       state.type = action.payload.type

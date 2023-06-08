@@ -24,7 +24,7 @@ const cartModalSlice = createSlice({
       state.quickView = false
       state.data = {}
     },
-    ADD_DOC(state, action) {
+    ADD_QUICK_MODAL_DOCUMENT(state, action) {
       state.data = action.payload
     },
 
@@ -41,7 +41,7 @@ export const {
   OPEN_CART_MODAL,
   CLOSE_CART_MODAL,
   OPEN_QUICK_VIEW,
-  ADD_DOC,
+  ADD_QUICK_MODAL_DOCUMENT,
   CLOSE_QUICK_VIEW,
   OPEN_SEARCH_MODAL,
   CLOSE_SEARCH_MODAL,

@@ -4,5 +4,5 @@ export { default as Dashboard } from './Dashboard'
 export { default as Orders } from './Orders'
 export { default as Products } from './Products'
 export { default as EditProduct } from './EditProject'
-export { default as ModalBox } from './ModalBox'
+
 export { default as AdminOnlyRoute } from './AdminOnlyRoute'

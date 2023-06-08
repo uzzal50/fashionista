@@ -4,7 +4,7 @@ import Shimmer from './Shimmer'
 
 const SkeletonCard = () => {
   return (
-    <Wrapper className='sk-wrapper container'>
+    <Wrapper className='sk-wrapper'>
       <Shimmer />
       <SkeletonElement type='image' />
       <SkeletonElement type='title' />

@@ -1,83 +1,56 @@
+import { useRef, useState } from 'react'
 import styled from 'styled-components'
 import { Link } from 'react-router-dom'
+import { useDispatch } from 'react-redux'
 import bgImage from '../../assets/bgImage.png'
-import quickViewIcon from '../../assets/icons/quick-view.svg'
-import { useEffect, useState } from 'react'
 
+import quickViewIcon from '../../assets/icons/quick-view.svg'
 import {
   OPEN_QUICK_VIEW,
-  ADD_DOC,
+  ADD_QUICK_MODAL_DOCUMENT,
 } from '../../redux/Slice/cart-modal/cartModalSlice'
-import { useDispatch } from 'react-redux'
 
-const TshirtItem = ({
-  name,
-  id,
-  price,
-  category,
-  images,
-  desc,
-  colors,
-  type,
-}) => {
-  const [src, setSrc] = useState(bgImage)
+const TshirtItem = ({ data }) => {
+  const { id, thumbnailPhoto, name, price, category, productDetails, type } =
+    data
   const [isHover, setIsHovered] = useState(false)
   const dispatch = useDispatch()
-
-  useEffect(() => {
-    setTimeout(() => {
-      setSrc(images[0])
-    }, 100)
-  }, [])
-
-  const mouseEnterHandler = () => {
-    setIsHovered(true)
-  }
-  const mouseLeaveHandler = () => {
-    setIsHovered(false)
-  }
-
-  const quickViewHandler = (e, { ...data }) => {
-    dispatch(OPEN_QUICK_VIEW())
-    dispatch(ADD_DOC(data))
+  const imgRef = useRef(null)
+  const onLoad = () => {
+    imgRef.current.parentElement.classList.add('loaded')
   }
 
   return (
-    <ItemWrapper className='item text-left'>
-      <div
-        onMouseEnter={() => mouseEnterHandler()}
-        onMouseLeave={() => mouseLeaveHandler()}
-      >
+    <ItemWrapper className='item text-left p-relative'>
+      <div>
         <Link to={`/product/${type}/${id}`}>
-          <div className='img-container'>
-            {images.map((img, index) => (
-              <img
-                src={src}
-                alt='img'
-                key={index}
-                className='w-100 h-100 t-shirt-img'
-              />
-            ))}
+          <div
+            className='img-container'
+            style={{ backgroundImage: `url(${bgImage})` }}
+          >
+            <img
+              ref={imgRef}
+              src={isHover ? productDetails[0].image : thumbnailPhoto}
+              alt='img'
+              className='w-100 h-100 t-shirt-img'
+              onLoad={onLoad}
+              onMouseEnter={() => setIsHovered(true)}
+              onMouseLeave={() => setIsHovered(false)}
+            />
           </div>
         </Link>
-        {isHover && (
-          <div
-            data-tooltip='Quick View'
-            className='quickView-Wrapper'
-            onClick={e =>
-              quickViewHandler(e, {
-                name,
-                images,
-                price,
-                category,
-                desc,
-                colors,
-              })
-            }
-          >
-            <img src={quickViewIcon} className='quick-view-icon' />
-          </div>
-        )}
+
+        <div
+          data-tooltip='Quick View'
+          className={`quickView-Wrapper 
+            a-center ${isHover ? 'd-flex-j-center' : 'd-hidden'}`}
+          onClick={() => {
+            dispatch(OPEN_QUICK_VIEW())
+            dispatch(ADD_QUICK_MODAL_DOCUMENT(data))
+          }}
+        >
+          <img src={quickViewIcon} className='quick-view-icon p-absolute' />
+        </div>
       </div>
       <div className='box prl-s'>
         <div className='sub-heading mtb-s'>{category}</div>
@@ -93,22 +66,27 @@ const TshirtItem = ({
 export default TshirtItem
 
 const ItemWrapper = styled.article`
-  div {
-    position: relative;
-  }
   .img-container {
     position: relative;
     height: 33rem;
-    transition: all 0.3s ease-in-out 0s;
+    background-position: center;
+    background-size: cover;
 
     .t-shirt-img {
       position: absolute;
-      width: 100%;
-      height: 100%;
       object-fit: cover;
-      object-position: top;
+      object-position: center;
+
+      opacity: 0;
+      transition: all 0.3s ease-in-out;
+    }
+    &.loaded {
+      .t-shirt-img {
+        opacity: 1;
+      }
     }
   }
+
   .quickView-Wrapper {
     position: absolute;
     top: 0;
@@ -118,9 +96,7 @@ const ItemWrapper = styled.article`
     background-color: #fff;
     border-radius: 50%;
     margin: 1rem 1rem 0px 0px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
+
     &::before,
     &::after {
       position: absolute;
@@ -131,7 +107,6 @@ const ItemWrapper = styled.article`
     }
     &::after {
       content: '';
-
       border-top: 0.4rem solid transparent;
       border-left: 0.8rem solid rgb(0, 0, 0);
       border-bottom: 0.4rem solid transparent;
@@ -145,19 +120,14 @@ const ItemWrapper = styled.article`
       padding: 0.6rem 1rem;
       font-size: 1.1rem;
       width: max-content;
-
       border-radius: 4px;
     }
     &:hover::before,
     &:hover::after {
       scale: 1;
     }
-
     .quick-view-icon {
       width: 1.7rem;
-    }
-    .img {
-      position: absolute;
     }
   }
   .box {

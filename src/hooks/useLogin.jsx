@@ -3,6 +3,8 @@ import { auth } from '../../firebase/config'
 import { useAuthContext } from './useAuthContext'
 import { useNavigate } from 'react-router-dom'
 import { useState } from 'react'
+import { useDispatch } from 'react-redux'
+import { OPEN_MESSAGE } from '../redux/Slice/Message/messageSlice'
 
 export const useLogin = () => {
   const [error, setError] = useState(null)
@@ -10,6 +12,7 @@ export const useLogin = () => {
 
   const navigate = useNavigate()
   const { dispatch } = useAuthContext()
+  const reduxDispatch = useDispatch()
 
   const login = async (email, password) => {
     setError(null)
@@ -24,7 +27,12 @@ export const useLogin = () => {
       const user = res.user
       dispatch({ type: 'LOGIN', payload: user })
       setIsPending(false)
-      console.log('login Successful.', 'success')
+      reduxDispatch(
+        OPEN_MESSAGE({
+          type: 'success',
+          text: 'Login Successful.',
+        })
+      )
       navigate('/')
     } catch (error) {
       setIsPending(false)

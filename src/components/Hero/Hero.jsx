@@ -1,4 +1,5 @@
 import hero from '../../assets/hero.png'
+import heroBg from '../../assets/hero-bg-circle.png'
 import styled from 'styled-components'
 import { Link } from 'react-router-dom'
 
@@ -15,8 +16,13 @@ const Hero = () => {
             <button className='shop btn'>Shop Collection</button>
           </Link>
         </div>
-        <div className='image-container'>
-          <img src={hero} alt='hero-img' className='hero-img' />
+        <div
+          className='image-container'
+          style={{
+            background: `url(${heroBg}) center center/ contain no-repeat`,
+          }}
+        >
+          <img src={hero} alt='hero-img' className='hero-img w-100' />
         </div>
       </div>
     </HeroWrapper>
@@ -44,10 +50,6 @@ const HeroWrapper = styled.section`
         text-transform : uppercase;
       }
     }
-    .image-container {
-      .hero-img {
-        width: 100%;
-      }
-    }
+ 
   }
 `

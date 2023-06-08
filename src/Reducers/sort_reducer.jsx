@@ -20,11 +20,10 @@ export const sortReducer = (state, action) => {
     }
 
     case 'SEARCH_TERM': {
-      console.log(action.payload)
       let temp = state.all_products.filter(item => {
         return item.name.toLowerCase().includes(action.payload.toLowerCase())
       })
-      console.log(temp)
+
       return {
         ...state,
         sorted_products: temp,

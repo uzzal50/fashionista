@@ -2,17 +2,15 @@ import { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 import styled from 'styled-components'
 import { edit, trash } from '../../assets/icons'
-import { ModalBox } from './'
 import { useCollection } from '../../hooks/useCollection'
 import { useFirestore } from '../../hooks/useFirestore'
 import Pagination from '../pagination/Pagination'
 
 const Products = () => {
-  const [isModalOpen, setIsModalOpen] = useState(false)
   const [term, setTerm] = useState('')
-  const { response, dispatch } = useCollection('T-shirts')
+  const { response, dispatch } = useCollection('clothes')
   const data = response.sorted_products
-  const { deleteDocument } = useFirestore('T-shirts')
+  const { deleteDocument } = useFirestore('clothes')
 
   //Pagination states
   const [currentPage, setCurrentPage] = useState(1)
@@ -30,7 +28,7 @@ const Products = () => {
 
   return (
     <Wrapper>
-      <div className='w-50 d-flex mb-s'>
+      <div className='w-100 d-flex mb-s'>
         <input
           type='text'
           name='search'
@@ -49,8 +47,8 @@ const Products = () => {
             <th>Name</th>
             <th>Price</th>
             <th>Category</th>
-            <th>In Stock</th>
-            <th>Colors</th>
+            <th>ThumnailPhoto</th>
+            <th>Color and InStock</th>
             <th>Images</th>
             <th>Type</th>
             <th>Action</th>
@@ -65,11 +63,12 @@ const Products = () => {
                 name,
                 price,
                 category,
-                inStock,
-                colors,
+                productDetails,
                 images,
                 type,
+                thumbnailPhoto,
               } = item
+
               return (
                 <tr key={id}>
                   <td>
@@ -85,20 +84,23 @@ const Products = () => {
                     <p> {category} </p>
                   </td>
                   <td>
-                    <p> {inStock} </p>
+                    <p>
+                      {' '}
+                      <img src={thumbnailPhoto} className='w-4-icon' />{' '}
+                    </p>
                   </td>
                   <td>
-                    {colors.map(col => {
+                    {productDetails.map((item, index) => {
                       return (
-                        <span key={col.value} className='mr-s'>
-                          {col.value}
-                        </span>
+                        <div key={index} className='d-flex gap-1 a-center'>
+                          <p>{item.color}</p>-<p>{item.inStock}</p>
+                        </div>
                       )
                     })}
                   </td>
-                  <td>
+                  <td className='text-left'>
                     {images.map((img, index) => (
-                      <img src={img} key={index} />
+                      <img src={img} key={index} className='w-4-icon' />
                     ))}
                   </td>
                   <td>
@@ -106,22 +108,18 @@ const Products = () => {
                   </td>
                   <td>
                     <Link to={`/admin/add-product/${id}`}>
-                      <img src={edit} alt='' className='mr-s icon' />
+                      <img src={edit} className='mr-s w-2-icon icon' />
                     </Link>
 
-                    {isModalOpen && (
-                      <ModalBox
-                        deleteDocument={deleteDocument}
-                        id={id}
-                        isModalOpen={isModalOpen}
-                        setIsModalOpen={setIsModalOpen}
-                      />
-                    )}
                     <img
                       src={trash}
-                      alt=''
-                      className='icon trash'
-                      onClick={() => deleteDocument(id)}
+                      className='icon trash w-2-icon'
+                      onClick={() =>
+                        deleteDocument(
+                          id,
+                          productDetails.map(item => item.color)
+                        )
+                      }
                     />
                   </td>
                 </tr>
@@ -150,12 +148,6 @@ const Wrapper = styled.section`
     th,
     td {
       padding: 1rem;
-      img {
-        width: 4rem;
-      }
-      .icon {
-        width: 2rem;
-      }
     }
   }
 `

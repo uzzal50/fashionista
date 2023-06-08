@@ -111,6 +111,7 @@ const Wrapper = styled.div`
     }
     .profile-nav-links {
       padding: 1.4rem 3.2rem;
+      cursor: pointer;
       a {
         text-transform: capitalize;
       }

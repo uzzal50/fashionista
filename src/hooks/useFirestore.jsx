@@ -5,6 +5,7 @@ import {
   addDoc,
   serverTimestamp,
   doc,
+  setDoc,
   deleteDoc,
   updateDoc,
 } from 'firebase/firestore'
@@ -85,54 +86,107 @@ export const useFirestore = coll => {
     }
   }
 
-  //add document
-  const addDocument = async doc => {
-    const { image, name, category, price, colors, inStock, desc, type } = doc
-
+  //addReact hook form
+  const addDocumentNew = async data => {
+    console.log(data)
+    const { name, price, category, description, product, type, thumbnail } =
+      data
+    const thumbnailImage = thumbnail[0]
     try {
       dispatch({ type: 'IS_PENDING' })
+      let productDetails = []
+      let allImages = []
 
-      //upload images
-      let imagesUrl = []
-      let now = Date.now()
-      for (const item of image) {
-        const storageRef = await ref(
-          storage,
-          `/popular-tshirts/${name}${now}}/${item.name}`
-        )
-        const uploadTask = await uploadBytesResumable(storageRef, item)
-
-        const url = await getDownloadURL(uploadTask.ref)
-        await imagesUrl.push(url)
-      }
-
+      //1. Add Document to Collection and returning id
       const addedDocument = await addDoc(refs, {
         name,
-        category,
         price,
-        colors,
-        inStock,
-        desc,
+        category,
+        description,
         type,
-        images: imagesUrl,
-        createdAt: serverTimestamp(),
       })
 
+      //2. Storing thumbnail
+      const storageThumbnailRef = await ref(
+        storage,
+        `/clothes/${addedDocument.id}/thumbnail/${addedDocument.id}`
+      )
+
+      const uploadTaskOfThumnbail = await uploadBytesResumable(
+        storageThumbnailRef,
+        thumbnailImage
+      )
+      const urlOfThumnail = await getDownloadURL(uploadTaskOfThumnbail.ref)
+
+      //3.Storing Images
+      for (const item of product) {
+        const storageImageRef = await ref(
+          storage,
+          `/clothes/${addedDocument.id}/images/${item.color}/${addedDocument.id}`
+        )
+
+        const uploadTaskOfImage = await uploadBytesResumable(
+          storageImageRef,
+          item.image
+        )
+
+        const urlOfImage = await getDownloadURL(uploadTaskOfImage.ref)
+
+        await productDetails.push({
+          color: item.color,
+          image: urlOfImage,
+          inStock: item.inStock,
+        })
+        await allImages.push(urlOfImage)
+      }
+
+      //4. Merging url of images with document
+      const docRef = await doc(refs, addedDocument.id)
+      const result = await setDoc(
+        docRef,
+        {
+          productDetails,
+          thumbnailPhoto: urlOfThumnail,
+          images: [...allImages, urlOfThumnail],
+        },
+        { merge: true }
+      )
+      console.log(result)
       await dispatchIfNotCancelled({
         type: 'ADDED_DOCUMENT',
         payload: addedDocument,
       })
-    } catch (err) {
+    } catch (error) {
       dispatchIfNotCancelled({ type: 'ERROR', payload: err.message })
     }
   }
 
   //delete document
-  const deleteDocument = async id => {
-    const docRef = doc(db, coll, id)
-    const imageRef = ref(storage, `/popular-tshirts/${id}/${id}.jpg`)
-    await deleteDoc(docRef)
-    // // Delete the file
+  const deleteDocument = async (id, colors) => {
+    try {
+      // get document ref and delete
+      const docRef = await doc(db, coll, id)
+      await deleteDoc(docRef)
+
+      //get thumbnail ref
+      const thubnailRef = await ref(storage, `${coll}/${id}/thumbnail/${id}`)
+      //delete thumbnail
+      await deleteObject(thubnailRef)
+
+      //get image ref
+      //delete images from storage
+      for (const item of colors) {
+        const imageRef = await ref(
+          storage,
+          `${coll}/${id}/images/${item}/${id}`
+        )
+        await deleteObject(imageRef)
+      }
+
+      console.log('Deleted :)')
+    } catch (error) {
+      console.log(error.message)
+    }
   }
 
   //update a document
@@ -189,13 +243,12 @@ export const useFirestore = coll => {
   }, [])
 
   return {
-    addDocument,
+    addDocumentNew,
     deleteDocument,
     updateDocument,
     addAnyDocument,
     updateOrderStatus,
     changeProfilePic,
-
     response,
   }
 }

@@ -1,7 +1,6 @@
 import React, { Suspense, lazy } from 'react'
 import { createPortal } from 'react-dom'
 import { useSelector } from 'react-redux'
-import { useAuthContext } from './hooks/useAuthContext'
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
 import Women from './pages/Women/Women'
 import Shop from './pages/Shop/Shop'
@@ -12,6 +11,7 @@ import Register from './pages/Register/Register'
 import Product from './pages/Product/Product'
 import SkeletonFallback from './components/skeleton/SkeletonFallback'
 import Home from './pages/Home/Home'
+import NotFound from './pages/NotFound/NotFound'
 import {
   Navbar,
   Footer,
@@ -25,7 +25,6 @@ import {
   MyWishlist,
 } from './components'
 import QuickViewModal from './components/T-shirt/QuickViewModal'
-
 const Dashboard = lazy(() => import('./components/admin/Dashboard'))
 const AddProducts = lazy(() => import('./components/admin/AddProducts'))
 const Orders = lazy(() => import('./components/admin/Orders'))
@@ -46,7 +45,6 @@ import TopMessage from './components/Message/TopMessage'
 import SearchPage from './pages/SearchPage/SearchPage'
 
 function App() {
-  const { authIsReady } = useAuthContext()
   const { isModalOpen, searchModal } = useSelector(state => state.cartModal)
   const { quickView } = useSelector(state => state.cartModal)
   const { text, type } = useSelector(state => state.message)
@@ -83,7 +81,6 @@ function App() {
             <Route path='products' element={<Products />} />
             <Route path='dashboard' element={<Dashboard />} />
           </Route>
-
           <Route
             path='men'
             element={
@@ -144,6 +141,7 @@ function App() {
               }
             ></Route>
             <Route path='payment' element={<Payment />}></Route>
+            <Route path='*' element={<NotFound />}></Route>
           </Route>
         </Routes>
         {/* <Subscribe /> */}

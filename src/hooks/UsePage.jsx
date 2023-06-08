@@ -1,5 +1,5 @@
 import styled from 'styled-components'
-import { Children, useEffect } from 'react'
+import { useEffect } from 'react'
 import { SkeletonCard, TshirtItem } from '../components'
 import { useCollection } from './useCollection'
 import { capital } from '../utils'
@@ -24,8 +24,6 @@ const UsePage = ({ name, collection, field, value }) => {
     } else null
   }, [response.sort, response.success, location.state])
 
-  console.log(location.state)
-
   useEffect(() => {
     window.scrollTo({
       top: 0,
@@ -33,8 +31,6 @@ const UsePage = ({ name, collection, field, value }) => {
       behavior: 'auto',
     })
   }, [])
-
-  console.log(response)
 
   return (
     <Wrapper>

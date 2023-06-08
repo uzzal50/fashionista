@@ -1,197 +1,242 @@
-import { useEffect, useState } from 'react'
 import styled from 'styled-components'
+import { useForm, useFieldArray } from 'react-hook-form'
+import { useEffect } from 'react'
 import { useFirestore } from '../../hooks/useFirestore'
-import Select from 'react-select'
-import { optionColors } from '../../utils'
-import { useDebounce } from '../../hooks/useDebounce'
-import { OPEN_MESSAGE } from '../../redux/Slice/Message/messageSlice'
-import { useDispatch } from 'react-redux'
-
 let count = 0
 
 const AddProducts = () => {
-  const [clothes, setClothes] = useState({
-    name: '',
-    price: '',
-    inStock: '',
-    category: '',
-    desc: '',
-    type: '',
+  const { addDocumentNew } = useFirestore('clothes')
+  const form = useForm({
+    defaultValues: {
+      name: '',
+      price: null,
+      category: '',
+      description: '',
+      thumbnail: null,
+      type: '',
+      product: [{ color: '', image: null, inStock: 1 }],
+    },
   })
-  count++
-  const [colors, setColors] = useState(null)
-  const [image, setImage] = useState(null)
-  const [imageError, setImageError] = useState(null)
-  const { response, addDocument } = useFirestore('T-shirts')
-  const dispatch = useDispatch()
+  const { control, register, formState, handleSubmit, reset } = form
+  const { errors, isSubmitting, isSubmitSuccessful } = formState
+  const { fields, append, remove } = useFieldArray({
+    name: 'product',
+    control,
+  })
 
-  const handleImage = e => {
-    setImage(null)
-
-    let selected = e.target.files
-    let finalSelected = [...selected]
-
-    finalSelected.forEach(img => {
-      //to check image file
-      if (!img.type.includes('image')) {
-        setImageError('Selected File must be a image')
-        return
-      }
-
-      //to check user selected the file
-      if (!img) {
-        setImageError('Please select a file')
-        return
-      }
-
-      setImageError(null)
-
-      setImage(finalSelected)
+  const onSubmit = data => {
+    console.log('Data', data)
+    const { product } = data
+    product.forEach((item, index) => {
+      item.image = item.image[0]
     })
-  }
 
-  console.log(response)
-
-  const handleInputChange = e => {
-    const { name, value } = e.target
-    setClothes({ ...clothes, [name]: value }, 5000)
-  }
-
-  const handleSubmit = e => {
-    e.preventDefault()
-    e.target.disabled = true
-    addDocument({ ...clothes, image, colors })
+    addDocumentNew(data)
   }
 
   useEffect(() => {
-    if (response.success) {
-      setClothes({
-        name: '',
-        price: '',
-        inStock: '',
-        category: '',
-        desc: '',
-        type: '',
-      })
-      setImage(null)
-      setColors(null)
-      console.log('success added')
-      window.scroll({
-        top: 0,
-        behavior: 'smooth',
-      })
-      dispatch(
-        OPEN_MESSAGE({ type: 'success', text: 'Product Added Successfully.' })
-      )
-    }
-  }, [response.success, response.isPending])
-
+    if (isSubmitSuccessful) reset()
+  }, [isSubmitSuccessful])
+  console.log(isSubmitting, isSubmitSuccessful)
   return (
-    <Wrapper className='m-auto'>
-      cunt-{count}
+    <Wrapper className='w-80 m-auto'>
+      <p>Render - {count}</p>
       <div className='form-container'>
-        {' '}
         <h2 className='secondary-heading'>Add New Clothes</h2>
-        <form onSubmit={handleSubmit}>
-          <label>
-            <span>Name : </span>
-            <input
-              required
-              type='text'
-              name='name'
-              id='name'
-              value={clothes.name}
-              onChange={e => handleInputChange(e)}
-            />
-          </label>
 
-          <label>
-            <span>Price : </span>
-            <input
-              required
-              type='number'
-              name='price'
-              id='price'
-              onChange={e => handleInputChange(e)}
-              value={clothes.price}
-            />
-          </label>
-          <label>
-            <span>In Stock : </span>
-            <input
-              required
-              type='number'
-              name='inStock'
-              id='inStock'
-              onChange={e => handleInputChange(e)}
-              value={clothes.inStock}
-            />
-          </label>
-          <label>
-            <span>Category :</span>
-            <select
-              name='category'
-              id='category'
-              value={clothes.category}
-              onChange={e => handleInputChange(e)}
-            >
-              <option value=''>Select</option>
-              <option value='men'>Men</option>
-              <option value='women'>Women</option>
-            </select>
-          </label>
+        <form onSubmit={handleSubmit(onSubmit)}>
+          <div className='form-control'>
+            <label>
+              <span>Name : </span>
+              <input
+                type='text'
+                {...register('name', {
+                  required: 'Name is Required',
+                })}
+              />
+              <p className='error-text'>{errors.name?.message} </p>
+            </label>
+          </div>
+          <div className='form-control'>
+            <label>
+              <span>Price : </span>
+              <input
+                type='number'
+                {...register('price', {
+                  valueAsNumber: true,
+                  required: 'Price is Required',
+                })}
+              />
+              <p className='error-text'>{errors.price?.message} </p>
+            </label>
+          </div>
+          <div className='form-control'>
+            <label>
+              <span>Category : </span>
+              <select
+                type='text'
+                {...register('category', {
+                  required: 'category is Required',
+                })}
+              >
+                <option value=''>Select</option>
+                <option value='men'>Men</option>
+                <option value='women'>Women</option>
+              </select>
 
-          <label>
-            <span>Colors :</span>
-            <Select
-              options={optionColors}
-              onChange={e => setColors(e)}
-              isMulti
-            />
-          </label>
-          <label>
-            <span>Image : </span>
-            <input type='File' multiple onChange={handleImage} required />
-            {imageError && <div className='error'>{imageError}</div>}
-          </label>
+              <p className='error-text'>{errors.category?.message} </p>
+            </label>
+          </div>
+          <div className='form-control'>
+            <label>
+              <span>Description : </span>
+              <input
+                type='text'
+                {...register('description', {
+                  required: 'Description is Required',
+                })}
+              />
+              <p className='error-text'>{errors.description?.message} </p>
+            </label>
+          </div>
+          <div className='form-control'>
+            <label>
+              <span>Thumbnail:</span>
+              <input
+                type='file'
+                {...register('thumbnail', {
+                  required: 'Thumbnail field is Missing',
+                  validate: {
+                    lessThan2MB: value =>
+                      value[0]?.size < 200000 ||
+                      'File Size should be less than 200kb.',
 
-          <label>
-            <span>Description: </span>
-            <textarea
-              required
-              type='text'
-              name='desc'
-              id='desc'
-              onChange={e => handleInputChange(e)}
-              value={clothes.desc}
-            />
-          </label>
+                    acceptedFormats: files =>
+                      ['image/jpeg', 'image/png', 'image/gif'].includes(
+                        files[0]?.type
+                      ) || 'Only PNG, JPEG e GIF',
+                  },
+                })}
+              />
+              <p className='error-text'>{errors.thumbnail?.message}</p>
+            </label>
+          </div>
+          <div className='form-control'>
+            <label>
+              <span>Type : </span>
 
-          <label htmlFor=''>
-            <span>Type :</span>
-            <select
-              name='type'
-              id='type'
-              value={clothes.type}
-              onChange={e => handleInputChange(e)}
-              required
-            >
-              <option value=''>Select</option>
-              <option value='popular'>Popular</option>
-              <option value='sale'>sale</option>
-            </select>
-          </label>
+              <select
+                type='text'
+                {...register('type', {
+                  required: 'type is Required',
+                })}
+              >
+                <option value=''>Select</option>
+                <option value='popular'>Popular</option>
+                <option value='sale'>sale</option>
+              </select>
+              <p className='error-text'>{errors.type?.message} </p>
+            </label>
+          </div>{' '}
+          <div className='form-group'>
+            <label htmlFor='product'>
+              <span>Product Details</span>
+            </label>
+            <div>
+              {fields.map((field, index) => {
+                return (
+                  <div
+                    className='form-control d-flex j-space-between a-center mb-m'
+                    key={field.id}
+                  >
+                    <label htmlFor='' className='m-0'>
+                      <span>Color:</span>
+                      <select
+                        {...register(`product.${index}.color`, {
+                          required: 'color field is Missing',
+                        })}
+                      >
+                        <option value=''>--Select Color--</option>
+                        <option value='black'>Black</option>
+                        <option value='white'>White</option>
+                        <option value='orange'>Orange</option>
+                      </select>
 
-          {response.error && <div className='error'>{response.error}</div>}
-          <button className='btn w-100' disabled={response.isPending}>
-            {response.isPending ? (
-              <div className='lds-dual-ring'></div>
-            ) : (
-              'Add Clothes'
-            )}
+                      <p className='error'>
+                        {errors.product?.[index]?.color?.message}
+                      </p>
+                    </label>
+
+                    <label htmlFor='' className='m-0'>
+                      <span>Image : </span>
+                      <input
+                        type='file'
+                        {...register(`product.${index}.image`, {
+                          required: 'Image field is Missing',
+                          validate: {
+                            lessThan2MB: value =>
+                              value[0]?.size < 200000 ||
+                              'File Size should be less than 200kb.',
+
+                            acceptedFormats: files =>
+                              ['image/jpeg', 'image/png', 'image/gif'].includes(
+                                files[0]?.type
+                              ) || 'Only PNG, JPEG e GIF',
+                          },
+                        })}
+                      />
+                      <p className='error'>
+                        {errors.product?.[index]?.image?.message}
+                      </p>
+                    </label>
+
+                    <label className='m-0'>
+                      <span>In Stock: </span>
+                      <input
+                        type='number'
+                        {...register(`product.${index}.inStock`, {
+                          valueAsNumber: true,
+                          required: 'inStock is Mandatory.',
+                        })}
+                      />
+                      <p className='error'>
+                        {errors.product?.[index]?.inStock.message}
+                      </p>
+                    </label>
+
+                    {index > 0 && (
+                      <button
+                        className='btn-simple c-pointer error-text'
+                        type='button'
+                        onClick={() => remove(index)}
+                      >
+                        Remove
+                      </button>
+                    )}
+                  </div>
+                )
+              })}
+
+              <button
+                type='button'
+                onClick={() =>
+                  append({
+                    color: '',
+                    image: null,
+
+                    inStock: 1,
+                  })
+                }
+                className='btn-simple mb-m c-pointer'
+              >
+                + Add More
+              </button>
+            </div>
+          </div>
+          <button type='submit' className='btn' disabled={isSubmitting}>
+            {isSubmitting ? <div className='lds-dual-ring'></div> : 'Submit'}
           </button>
         </form>
-        <div className='lds-dual-ring'></div>
       </div>
     </Wrapper>
   )
@@ -201,7 +246,5 @@ export default AddProducts
 
 const Wrapper = styled.section`
   .form-container {
-    width: 50rem;
-    margin--right: auto;
   }
 `

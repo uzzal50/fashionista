@@ -1,23 +1,20 @@
-import { useCallback, useRef, useState } from 'react'
+import { useCallback, useRef, useState, useEffect } from 'react'
 import ReactDOM from 'react-dom'
 import { capital } from '../../utils'
 import styled from 'styled-components'
-import close from '../../assets/icons/close.svg'
-import next from '../../assets/icons/next-arrow.svg'
-import prev from '../../assets/icons/prev-arrow.svg'
 import { useDispatch, useSelector } from 'react-redux'
+import { close, next_arrow, prev_arrow } from '../../assets/icons'
 import { CLOSE_QUICK_VIEW } from '../../redux/Slice/cart-modal/cartModalSlice'
-
 import ModalOverlay from '../Cart/ModalOverlay'
-import { useEffect } from 'react'
 
 const QuickViewModal = () => {
   const { data } = useSelector(state => state.cartModal)
+  const { images, name, price, category, description, thumbnailPhoto } = data
+
   const dispatch = useDispatch()
   const [onHover, setOnHover] = useState(null)
   const [currImgIndex, setCurrImgIndex] = useState(0)
   const timerRef = useRef(null)
-  const { images, name, price, category, desc, colors } = data
 
   const handleNextImage = useCallback(() => {
     let newIndex = currImgIndex + 1
@@ -42,7 +39,7 @@ const QuickViewModal = () => {
     }
     timerRef.current = setTimeout(() => {
       handleNextImage()
-    }, 3000)
+    }, 2000)
 
     return () => clearTimeout(timerRef.current)
   }, [handleNextImage])
@@ -65,23 +62,15 @@ const QuickViewModal = () => {
             >
               <div
                 onClick={() => handleNextImage()}
-                className={
-                  onHover
-                    ? 'next-prev-btn next show-btn '
-                    : 'next-prev-btn next '
-                }
+                className={`next-prev-btn next ${onHover ? 'show-btn' : null}`}
               >
-                <img src={next} alt='next-btn' />
+                <img src={next_arrow} alt='next-btn' />
               </div>
               <div
                 onClick={() => handlePrevImage()}
-                className={
-                  onHover
-                    ? 'next-prev-btn prev show-btn '
-                    : 'next-prev-btn prev'
-                }
+                className={`next-prev-btn prev ${onHover ? 'show-btn' : null}`}
               >
-                <img src={prev} alt='prev-btn' />
+                <img src={prev_arrow} alt='prev-btn' />
               </div>
               <img
                 src={images[currImgIndex]}
@@ -92,11 +81,8 @@ const QuickViewModal = () => {
             <div className='right-container'>
               <span className='sub-heading'>{category}</span>
               <h2 className='secondary-heading mb-s'>{capital(name)}</h2>
-              <span className='sub-heading'>Rs{price}</span>
-              <p>{desc}</p>
-              {/* {colors.map((item, index) => {
-                return <button key={index}>{item.value}</button>
-              })} */}
+              <span className='sub-heading'>${price}</span>
+              <p>{description}</p>
             </div>
           </div>
         </div>
@@ -118,7 +104,7 @@ const Wrapper = styled.section`
       grid-template-columns: 1fr 1.5fr;
       max-width: 100rem;
       background-color: #fff;
-      transition: all 0.3s ease-in-out 0s;
+      transition: all 0.8s ease-in-out;
 
       .close-wrapper {
         position: absolute;

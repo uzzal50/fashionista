@@ -6,9 +6,9 @@ import { CLOSE_MESSAGE } from '../../redux/Slice/Message/messageSlice'
 const TopMessage = ({ text, type }) => {
   const { showMsg } = useSelector(state => state.message)
   const dispatch = useDispatch()
-  // setTimeout(() => {
-  //   dispatch(CLOSE_MESSAGE())
-  // }, 3000)
+  setTimeout(() => {
+    dispatch(CLOSE_MESSAGE())
+  }, 2000)
 
   return (
     <Wrapper>

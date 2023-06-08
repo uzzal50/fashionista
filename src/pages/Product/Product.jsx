@@ -1,17 +1,17 @@
-import { useEffect, useState } from 'react'
 import styled from 'styled-components'
-import prev from '../../assets/icons/prev-arrow.svg'
-import next from '../../assets/icons/next-arrow.svg'
+import { useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom'
+import { useSelector } from 'react-redux'
+import { prev_arrow, next_arrow } from '../../assets/icons'
 import { useSingleDocument } from '../../hooks/useSingleDocument'
 import {
   AddToCart,
   Description,
   ProductImages,
   Divider,
+  SkeletonProductDetails,
 } from '../../components'
-import SkeletonProductDetails from '../../components/skeleton/SkeletonProductDetails'
-import { useSelector, useDispatch } from 'react-redux'
+import Popular from '../../components/T-shirt/Popular'
 
 const Product = () => {
   const { data: res, saleData: saleRes } = useSelector(state => state.popular)
@@ -19,12 +19,18 @@ const Product = () => {
   const result = type === 'popular' ? res : saleRes
   const matchedId = result.findIndex(item => item.id === id)
   const [currentId, setCurrentId] = useState(matchedId)
+  const [isSelectedColor, setIsSelectedColor] = useState(null)
 
-  const dispatch = useDispatch()
   const { fetchSingleDocument, data, success, isLoading } =
-    useSingleDocument('T-shirts')
-
-  const { images, category, name, price, desc } = data
+    useSingleDocument('clothes')
+  const {
+    category,
+    description,
+    price,
+    images,
+    productDetails,
+    thumbnailPhoto,
+  } = data
 
   useEffect(() => {
     try {
@@ -65,24 +71,29 @@ const Product = () => {
           ) : (
             success && (
               <>
-                <ProductImages images={images} />
+                <ProductImages
+                  images={images}
+                  productDetails={productDetails}
+                  thumbnail={thumbnailPhoto}
+                  isSelectedColor={isSelectedColor}
+                />
 
                 <div className='text-container'>
                   <div className='next-arrow-category-container'>
                     <div className='sub-heading'>{category}</div>
                     <div className='next-prev-btn-container'>
-                      <button className='mr-s arrow-btn'>
+                      <button className='mr-s arrow-btn c-pointer'>
                         <img
-                          src={prev}
-                          alt=''
+                          src={prev_arrow}
+                          alt='prev-btn'
                           onClick={() => prevProductHandler()}
                         />
                       </button>
 
-                      <button className='arrow-btn'>
+                      <button className='arrow-btn c-pointer'>
                         <img
-                          src={next}
-                          alt=''
+                          src={next_arrow}
+                          alt='next-btn'
                           onClick={() => nextProductHandler()}
                         />
                       </button>
@@ -93,15 +104,20 @@ const Product = () => {
                   </h3>
                   <h3 className='tertiary-heading mb-s'>${price}.00</h3>
 
-                  <AddToCart product={{ ...data, id }} />
+                  <AddToCart
+                    product={{ ...data, id }}
+                    setIsSelectedColor={setIsSelectedColor}
+                    isSelectedColor={isSelectedColor}
+                  />
 
-                  <Description desc={desc} id={id} />
+                  <Description desc={description} id={id} />
                 </div>
               </>
             )
           )}
         </div>
       </Wrapper>
+      {/* <Popular type='Related Products' /> */}
     </>
   )
 }

@@ -103,7 +103,7 @@ const Wrapper = styled.section`
     position: absolute;
 
     top: 50%;
-    background-color: var(--primary-bg-color);
+
     border-radius: 7px;
     padding: 0.4rem;
     display: flex;

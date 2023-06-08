@@ -1,12 +1,12 @@
 import styled from 'styled-components'
-import CheckOutForm from '../checkout/CheckOutForm'
-import CartCheckoutSummary from './CartCheckoutSummary'
+// import CheckOutForm from '../checkout/CheckOutForm'
+// import CartCheckoutSummary from './CartCheckoutSummary'
 
 const Payment = () => {
   return (
     <Wrapper className='d-grid container-sw mtb-m'>
-      <CheckOutForm />
-      <CartCheckoutSummary />
+      {/* <CheckOutForm />
+      <CartCheckoutSummary /> */}
     </Wrapper>
   )
 }

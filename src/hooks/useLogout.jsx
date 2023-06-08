@@ -1,9 +1,10 @@
 import { useState } from 'react'
 import { auth } from '../../firebase/config'
 import { signOut } from 'firebase/auth'
-
+import { OPEN_MESSAGE } from '../redux/Slice/Message/messageSlice'
 import { useNavigate } from 'react-router-dom'
 import { useAuthContext } from './useAuthContext'
+import { useDispatch } from 'react-redux'
 
 export const useLogout = () => {
   // const [isCancelled, setIsCancelled] = useState(false)
@@ -12,19 +13,31 @@ export const useLogout = () => {
 
   const navigate = useNavigate()
   const { dispatch } = useAuthContext()
+  const reduxDispatch = useDispatch()
   const logout = async () => {
     setError(null)
     setIsPending(true)
 
     try {
       await signOut(auth)
-      console.log('Logout Successful', 'success')
+
       dispatch({ type: 'LOGOUT' })
       navigate('/')
+      reduxDispatch(
+        OPEN_MESSAGE({
+          type: 'success',
+          text: 'Logout Successful.',
+        })
+      )
     } catch (err) {
       setError(err.message)
       setIsPending(false)
-      console.log('Logout Failed', 'error')
+      reduxDispatch(
+        OPEN_MESSAGE({
+          type: 'error',
+          text: 'Logout Failed.',
+        })
+      )
     }
   }
 

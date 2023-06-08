@@ -46,7 +46,7 @@ const Pagination = ({
 
   return (
     <Wrapper>
-      <ul className='pagination d-flex a-center'>
+      <ul className='pagination d-flex a-center gap-1'>
         <li
           onClick={paginatePrev}
           className={currentPage === pageNumbers[0] ? 'd-hidden' : null}

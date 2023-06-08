@@ -38,8 +38,6 @@ const ProfileSidebar = () => {
     }
   }, [response.success])
 
-  console.log(response)
-
   const handleImage = e => {
     e.preventDefault()
     let uploadedImg = [...e.target.files]
@@ -73,7 +71,6 @@ const ProfileSidebar = () => {
 
     changeProfilePic(uploadedImg[0], user)
   }
-  console.log(response)
 
   return (
     <Wrapper>

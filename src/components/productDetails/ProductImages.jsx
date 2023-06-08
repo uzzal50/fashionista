@@ -1,11 +1,7 @@
 import styled from 'styled-components'
 import { useState } from 'react'
-import { useEffect } from 'react'
-import ProductModalImages from '../ProductDetails/ProductModalImages'
 
-const ProductImages = ({ images }) => {
-  const [mainImage, setMainImage] = useState(0)
-
+const ProductImages = ({ productDetails, thumbnail, isSelectedColor }) => {
   const [[x, y], setXY] = useState([0, 0])
   const [[imgWidth, imgHeight], setSize] = useState([0, 0])
   const [showMagnifier, setShowMagnifier] = useState(false)
@@ -13,7 +9,12 @@ const ProductImages = ({ images }) => {
     <Wrapper className='image-container'>
       <div className='main-image mb-m'>
         <img
-          src={images[mainImage]}
+          src={
+            isSelectedColor
+              ? productDetails.find(item => item.color === isSelectedColor)
+                  .image
+              : thumbnail
+          }
           className='h-100 w-100'
           onMouseEnter={e => {
             const elem = e.currentTarget
@@ -51,7 +52,12 @@ const ProductImages = ({ images }) => {
             border: '1px solid lightgray',
             backgroundColor: 'white',
             borderRadius: '100%',
-            backgroundImage: `url('${images[mainImage]}')`,
+            backgroundImage: `url('${
+              isSelectedColor
+                ? productDetails.find(item => item.color === isSelectedColor)
+                    .image
+                : thumbnail
+            }')`,
             backgroundRepeat: 'no-repeat',
 
             //calculate zoomed image size
@@ -64,16 +70,8 @@ const ProductImages = ({ images }) => {
         ></div>
       </div>
       <div className='other-images d-grid'>
-        {images.map((item, index) => {
-          return (
-            <img
-              src={images[index]}
-              alt=''
-              key={index}
-              className='w-100'
-              onClick={() => setMainImage(index)}
-            />
-          )
+        {productDetails.map((item, index) => {
+          return <img src={item.image} key={index} className='w-100' />
         })}
       </div>
     </Wrapper>

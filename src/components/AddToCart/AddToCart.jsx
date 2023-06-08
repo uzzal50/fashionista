@@ -5,15 +5,12 @@ import { useDispatch } from 'react-redux'
 import { ADD_TO_CART, CALCULATE_TOTAL } from '../../redux/Slice/cart/cartSlice'
 import { Link } from 'react-router-dom'
 import { OPEN_MESSAGE } from '../../redux/Slice/Message/messageSlice'
-import { useFirestore } from '../../hooks/useFirestore'
-import { useAuthContext } from '../../hooks/useAuthContext'
 
-const AddToCart = ({ product }) => {
-  const { colors, inStock, id } = product
+const AddToCart = ({ product, setIsSelectedColor, isSelectedColor }) => {
+  const { productDetails, id } = product
   const [qty, setQty] = useState(1)
-  const [isSelectedColor, setIsSelectedColor] = useState(null)
   const [showView, setShowView] = useState(false)
-
+  const dispatch = useDispatch()
   const increase = () => {
     setQty(old => {
       let newQty = old + 1
@@ -67,19 +64,19 @@ const AddToCart = ({ product }) => {
     <Wrapper className='add-to-cart-container'>
       <span className='sub-heading'>Color</span>
       <div className='colors-container'>
-        {colors.map((item, index) => {
+        {productDetails.map((item, index) => {
           return (
             <button
               className='color-btn mb-m mr-s'
               key={index}
               style={{
                 border:
-                  item.value === isSelectedColor ? '1px solid #000000' : null,
+                  item.color === isSelectedColor ? '1px solid #000000' : null,
               }}
-              onClick={() => setIsSelectedColor(item.value)}
+              onClick={() => setIsSelectedColor(item.color)}
             >
               {' '}
-              {item.label}
+              {item.color}
             </button>
           )
         })}

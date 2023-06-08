@@ -14,12 +14,7 @@ const Subscribe = () => {
               placeholder='Your Email Address'
               className='email-input'
             />
-            <button
-              className='btn sub-btn'
-              onClick={() => console.log('Successfully Added', 'success')}
-            >
-              Subscribe
-            </button>
+            <button className='btn sub-btn'>Subscribe</button>
           </div>
         </div>
       </div>

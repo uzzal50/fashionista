@@ -37,7 +37,6 @@ const MyOrder = () => {
     dispatch(SORT_ORDERS(value))
   }
 
-  console.log(copiedOrderDetails)
   return (
     <>
       <div className='profile-order-dashboard-container'>
