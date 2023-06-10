@@ -76,7 +76,7 @@ const RegisterForm = () => {
           <label>
             <span>Password</span>
             <input
-              type='text'
+              type='password'
               {...register('password', {
                 required: 'Password is Required',
               })}
@@ -89,7 +89,7 @@ const RegisterForm = () => {
           <label>
             <span>Confirm Password</span>
             <input
-              type='text'
+              type='password'
               {...register('confirmPassword', {
                 required: 'Confirm Password is not Mathed.',
                 validate: {

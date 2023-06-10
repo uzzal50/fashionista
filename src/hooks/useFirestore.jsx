@@ -91,8 +91,16 @@ export const useFirestore = coll => {
   //addReact hook form
   const addDocumentNew = async data => {
     console.log(data)
-    const { name, price, category, description, product, type, thumbnail } =
-      data
+    const {
+      name,
+      price,
+      category,
+      description,
+      product,
+      type,
+      thumbnail,
+      discount,
+    } = data
     const thumbnailImage = thumbnail[0]
     try {
       dispatch({ type: 'IS_PENDING' })
@@ -106,6 +114,7 @@ export const useFirestore = coll => {
         category,
         description,
         type,
+        discount,
         createdAt: serverTimestamp(),
       })
 
