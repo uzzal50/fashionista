@@ -24,9 +24,10 @@ export const useSignup = () => {
         password
       )
       console.log(user)
+      const uploadImage = thumbnail[0]
       //upload thumbnail
       const storageRef = await ref(storage, `/users/${user.uid}`)
-      const uploadTask = await uploadBytesResumable(storageRef, thumbnail)
+      const uploadTask = await uploadBytesResumable(storageRef, uploadImage)
       const url = await getDownloadURL(uploadTask.ref)
 
       //adding url and name

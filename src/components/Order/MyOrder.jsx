@@ -57,7 +57,7 @@ const MyOrder = () => {
           <div className='accordion-container orders-accordion d-flex-d-column-g'>
             {copiedOrderDetails.map((item, index) => {
               return (
-                <div className='accordion-item order-item' key={item.id}>
+                <div className='accordion-item order-item' key={index}>
                   <div className='accordion-heading'>
                     <div className='order-item-btn w-100'>
                       <div className='d-flex' style={{ gap: '8rem' }}>
@@ -140,8 +140,7 @@ const MyOrder = () => {
                               <div className='cart-items-details d-flex'>
                                 <div className='img-container w-15 mr-s'>
                                   <img
-                                    src={item.images[0]}
-                                    alt=''
+                                    src={item.addedItem.image}
                                     className='w-100 h-100'
                                   />
                                 </div>

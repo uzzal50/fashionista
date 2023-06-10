@@ -30,6 +30,7 @@ const Product = () => {
     images,
     productDetails,
     thumbnailPhoto,
+    discount,
   } = data
 
   useEffect(() => {
@@ -62,7 +63,7 @@ const Product = () => {
     <>
       <Divider />
       <Wrapper className='container-xsw mtb-l'>
-        <div className='product-container grid-2-col'>
+        <div className='product-container grid-2-col gap-4'>
           {isLoading ? (
             <>
               <SkeletonProductDetails side='image' />
@@ -76,24 +77,27 @@ const Product = () => {
                   productDetails={productDetails}
                   thumbnail={thumbnailPhoto}
                   isSelectedColor={isSelectedColor}
+                  discount={discount}
                 />
 
                 <div className='text-container'>
-                  <div className='next-arrow-category-container'>
+                  <div className='next-arrow-category-container d-flex j-space-between a-center '>
                     <div className='sub-heading'>{category}</div>
-                    <div className='next-prev-btn-container'>
-                      <button className='mr-s arrow-btn c-pointer'>
+                    <div className='next-prev-btn-container d-flex'>
+                      <button className='mr-s arrow-btn c-pointer btn-trans'>
                         <img
                           src={prev_arrow}
                           alt='prev-btn'
+                          className='  w-1-icon d-flex'
                           onClick={() => prevProductHandler()}
                         />
                       </button>
 
-                      <button className='arrow-btn c-pointer'>
+                      <button className='arrow-btn c-pointer d-flex btn-trans'>
                         <img
                           src={next_arrow}
                           alt='next-btn'
+                          className='w-1-icon'
                           onClick={() => nextProductHandler()}
                         />
                       </button>
@@ -126,20 +130,10 @@ export default Product
 
 export const Wrapper = styled.section`
   .product-container {
-    gap: 4rem;
     .next-arrow-category-container {
-      margin-right: 5rem;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
       .arrow-btn {
-        background-color: transparent;
         border: 1px solid rgba(0, 0, 0, 0.14);
         padding: 0.2rem;
-
-        img {
-          width: 1.5rem;
-        }
       }
     }
   }

@@ -7,7 +7,7 @@ const CartCheckoutSummary = () => {
     <Wrapper className='checkout-summary-wrapper'>
       <div className='checkout-summary-container'>
         <div className='title'>
-          <h3 className='tertiary-heading mb-m'>Your Order</h3>
+          <h3 className='tertiary-heading mb-m f-w-400'>Your Order</h3>
         </div>
         <div className='content'>
           <div className='content-heading d-flex j-space-between a-center'>
@@ -24,8 +24,10 @@ const CartCheckoutSummary = () => {
                 >
                   <div className='d-flex a-center'>
                     <img
-                      src={item.images[0]}
-                      alt=''
+                      src={
+                        item.productDetails.find(p => p.color === item.color)
+                          .image
+                      }
                       style={{ width: '5rem' }}
                       className='mr-s'
                     />

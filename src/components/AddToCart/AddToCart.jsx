@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import styled from 'styled-components'
 import { QtyButtons } from '../'
 import { useDispatch } from 'react-redux'
@@ -7,28 +7,43 @@ import { Link } from 'react-router-dom'
 import { OPEN_MESSAGE } from '../../redux/Slice/Message/messageSlice'
 
 const AddToCart = ({ product, setIsSelectedColor, isSelectedColor }) => {
-  const { productDetails, id } = product
+  const { id, name, price, productDetails } = product
   const [qty, setQty] = useState(1)
   const [showView, setShowView] = useState(false)
   const dispatch = useDispatch()
+
   const increase = () => {
-    setQty(old => {
-      let newQty = old + 1
-      if (newQty > inStock) {
-        return (newQty = inStock)
-      }
-      return newQty
-    })
+    if (isSelectedColor) {
+      let matched = productDetails.find(item => item.color === isSelectedColor)
+
+      setQty(old => {
+        let newQty = old + 1
+        if (newQty > matched.inStock) {
+          return (newQty = matched.inStock)
+        }
+        return newQty
+      })
+    } else {
+      dispatch(
+        OPEN_MESSAGE({ type: 'error', text: 'Please select the color first.' })
+      )
+    }
   }
 
   const decrease = () => {
-    setQty(old => {
-      let newQty = old - 1
-      if (newQty === 0) {
-        return (newQty = 1)
-      }
-      return newQty
-    })
+    if (isSelectedColor) {
+      setQty(old => {
+        let newQty = old - 1
+        if (newQty === 0) {
+          return (newQty = 1)
+        }
+        return newQty
+      })
+    } else {
+      dispatch(
+        OPEN_MESSAGE({ type: 'error', text: 'Please select the color first.' })
+      )
+    }
   }
 
   const addToCart = () => {
@@ -41,11 +56,17 @@ const AddToCart = ({ product, setIsSelectedColor, isSelectedColor }) => {
       )
       return
     }
+    let addedItem = productDetails.find(item => item.color === isSelectedColor)
+
     const cartItemsConfig = {
-      ...product,
-      colors: isSelectedColor,
-      quantity: qty,
       id,
+      name,
+      price,
+      productDetails,
+      color: isSelectedColor,
+      quantity: qty,
+      addedItem,
+      idColor: id + isSelectedColor,
     }
 
     dispatch(ADD_TO_CART(cartItemsConfig))
@@ -60,14 +81,18 @@ const AddToCart = ({ product, setIsSelectedColor, isSelectedColor }) => {
     )
   }
 
+  useEffect(() => {
+    setQty(1)
+  }, [isSelectedColor])
+
   return (
     <Wrapper className='add-to-cart-container'>
       <span className='sub-heading'>Color</span>
-      <div className='colors-container'>
+      <div className='colors-container d-flex a-center mb-m gap-1'>
         {productDetails.map((item, index) => {
           return (
             <button
-              className='color-btn mb-m mr-s'
+              className='color-btn btn-trans p-s-tb'
               key={index}
               style={{
                 border:
@@ -80,11 +105,22 @@ const AddToCart = ({ product, setIsSelectedColor, isSelectedColor }) => {
             </button>
           )
         })}
+        <p>
+          {isSelectedColor
+            ? `${
+                productDetails.find(item => item.color === isSelectedColor)
+                  .inStock
+              } in Stock `
+            : null}
+        </p>
       </div>
       <hr />
-      <div className='qty-add-to-cart-container mtb-s d-flex a-center'>
+      <div className='qty-add-to-cart-container mtb-s d-flex a-center gap-2 '>
         <QtyButtons qty={qty} increase={increase} decrease={decrease} />
-        <button className='btn add-to-cart-btn' onClick={() => addToCart()}>
+        <button
+          className='btn add-to-cart-btn p-s-tb f-d'
+          onClick={() => addToCart()}
+        >
           Add to Cart
         </button>
 
@@ -102,15 +138,6 @@ export default AddToCart
 
 const Wrapper = styled.div`
   .color-btn {
-    background-color: transparent;
-    padding: 0.5rem 1.2rem;
     border: 1px solid rgb(0 0 0 / 14%);
-    font-family: inherit;
-  }
-  .qty-add-to-cart-container {
-    gap: 2rem;
-    .add-to-cart-btn {
-      padding: 0.5rem 1rem;
-    }
   }
 `

@@ -39,14 +39,18 @@ const ViewCart = () => {
               alignItems: cartItems.length >= 1 ? 'flex-start' : 'center',
             }}
           >
-            {cartItems.length ? (
+            {cartItems && cartItems.length ? (
               <div className='cart-items-container'>
                 {cartItems.map(item => {
                   return (
-                    <div key={item.id} className='item d-grid mb-m'>
+                    <div key={item.idColor} className='item d-grid mb-m'>
                       <div>
                         <img
-                          src={item.images[0]}
+                          src={
+                            item.productDetails.find(
+                              p => p.color === item.color
+                            ).image
+                          }
                           alt=''
                           style={{ width: '5rem' }}
                         />
@@ -68,7 +72,7 @@ const ViewCart = () => {
                           src={close}
                           alt='close-btn'
                           className='w-30 mb-xs'
-                          onClick={() => removeItem(item.id)}
+                          onClick={() => removeItem(item.idColor)}
                         />
                         <p>${(item.price * item.quantity).toFixed(2)}</p>
                       </div>

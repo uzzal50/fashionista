@@ -8,7 +8,7 @@ const ShoppingCart = () => {
   return (
     <div>
       {cartItems && cartItems.length >= 1 ? (
-        <div className='cart-totals-details-container mtb-m'>
+        <div className='cart-totals-details-container d-grid mtb-m'>
           <CartContent cartItems={cartItems} />
           <CartSummary cartItems={cartItems} />
         </div>

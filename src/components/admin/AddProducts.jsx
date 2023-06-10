@@ -5,7 +5,7 @@ import { useFirestore } from '../../hooks/useFirestore'
 let count = 0
 
 const AddProducts = () => {
-  const { addDocumentNew } = useFirestore('clothes')
+  const { addDocumentNew, response } = useFirestore('clothes')
   const form = useForm({
     defaultValues: {
       name: '',
@@ -14,6 +14,7 @@ const AddProducts = () => {
       description: '',
       thumbnail: null,
       type: '',
+      discount: '',
       product: [{ color: '', image: null, inStock: 1 }],
     },
   })
@@ -35,9 +36,9 @@ const AddProducts = () => {
   }
 
   useEffect(() => {
-    if (isSubmitSuccessful) reset()
-  }, [isSubmitSuccessful])
-  console.log(isSubmitting, isSubmitSuccessful)
+    if (response.success) reset()
+  }, [response.success])
+
   return (
     <Wrapper className='w-80 m-auto'>
       <p>Render - {count}</p>
@@ -137,7 +138,19 @@ const AddProducts = () => {
               </select>
               <p className='error-text'>{errors.type?.message} </p>
             </label>
-          </div>{' '}
+          </div>
+          <div className='form-control'>
+            <label>
+              <span>Discount : </span>
+              <input
+                type='text'
+                {...register('discount', {
+                  valueAsNumber: true,
+                })}
+              />
+              <p className='error-text'>{errors.discount?.message} </p>
+            </label>
+          </div>
           <div className='form-group'>
             <label htmlFor='product'>
               <span>Product Details</span>
@@ -200,7 +213,7 @@ const AddProducts = () => {
                         })}
                       />
                       <p className='error'>
-                        {errors.product?.[index]?.inStock.message}
+                        {errors.product?.[index]?.inStock?.message}
                       </p>
                     </label>
 
@@ -233,8 +246,13 @@ const AddProducts = () => {
               </button>
             </div>
           </div>
+
           <button type='submit' className='btn' disabled={isSubmitting}>
-            {isSubmitting ? <div className='lds-dual-ring'></div> : 'Submit'}
+            {response.isPending ? (
+              <div className='lds-dual-ring'></div>
+            ) : (
+              'Submit'
+            )}
           </button>
         </form>
       </div>

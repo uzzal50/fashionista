@@ -6,7 +6,7 @@ import SkeletonReview from '../skeleton/SkeletonReview'
 
 const Reviews = () => {
   const [index, setIndex] = useState(0)
-  const { data: rev } = useCollection('reviews')
+  const { data: rev, response } = useCollection('reviews')
   const nextRev = () => {
     setIndex(old => {
       let newIndex = old + 1
@@ -33,7 +33,7 @@ const Reviews = () => {
     <>
       <Wrapper className='reviews-section mtb-l text-center'>
         <h2 className='secondary-heading mb-m'>Reviews</h2>
-        {rev.length > 1 ? (
+        {rev && rev.length >= 1 ? (
           <>
             <div className='review-item'>
               <p className='review-text mb-m'>"{rev[index].review}"</p>
@@ -101,9 +101,7 @@ const Wrapper = styled.section`
   .prev-button,
   .next-button {
     position: absolute;
-
     top: 50%;
-
     border-radius: 7px;
     padding: 0.4rem;
     display: flex;

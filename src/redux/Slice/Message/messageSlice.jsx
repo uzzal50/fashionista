@@ -14,11 +14,13 @@ const messageSlice = createSlice({
       state.showMsg = true
       state.text = action.payload.text
       state.type = action.payload.type
+      window.scroll({
+        top: 0,
+        behavior: 'smooth',
+      })
     },
     CLOSE_MESSAGE(state, action) {
       state.showMsg = false
-      state.text = null
-      state.type = null
     },
   },
 })

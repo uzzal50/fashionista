@@ -6,7 +6,7 @@ import Women from './pages/Women/Women'
 import Shop from './pages/Shop/Shop'
 import About from './pages/About/About'
 import Contact from './pages/Contact/Contact'
-import Login from './pages/Login/Login'
+import LoginPage from './pages/Login/LoginPage'
 import Register from './pages/Register/Register'
 import Product from './pages/Product/Product'
 import SkeletonFallback from './components/skeleton/SkeletonFallback'
@@ -34,8 +34,8 @@ const Men = lazy(() => import('./pages/Men/Men'))
 const Admin = lazy(() => import('./pages/admin/Admin'))
 const Cart = lazy(() => import('./pages/cart/Cart'))
 const Checkout = lazy(() => import('./components/checkout/Checkout'))
-const Payment = lazy(() => import('./components/Cart/Payment'))
-const OrderSuccess = lazy(() => import('./components/Cart/OrderSuccess'))
+
+const OrderSuccess = lazy(() => import('./components/Order/OrderSuccess'))
 const ShoppingCart = lazy(() => import('./components/Cart/ShoppingCart'))
 const Profile = lazy(() => import('./pages/Profile/Profile'))
 
@@ -84,7 +84,11 @@ function App() {
           <Route
             path='men'
             element={
-              <Suspense fallback={<SkeletonCard />}>
+              <Suspense
+                fallback={[1, 2, 3, 4].map(item => (
+                  <SkeletonCard key={item} />
+                ))}
+              >
                 <Men />
               </Suspense>
             }
@@ -112,7 +116,7 @@ function App() {
           <Route path='/about' element={<Contact />}></Route>
           <Route path='/about' element={<About />}></Route>
           <Route path='/product/:type/:id' element={<Product />}></Route>
-          <Route path='login' element={<Login />} />
+          <Route path='login' element={<LoginPage />} />
 
           <Route path='register' element={<Register />}></Route>
           <Route
@@ -140,11 +144,10 @@ function App() {
                 </Suspense>
               }
             ></Route>
-            <Route path='payment' element={<Payment />}></Route>
             <Route path='*' element={<NotFound />}></Route>
           </Route>
         </Routes>
-        {/* <Subscribe /> */}
+        <Subscribe />
         <Footer />
 
         {quickView ? <QuickViewModal /> : null}

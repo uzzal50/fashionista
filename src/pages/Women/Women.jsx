@@ -7,7 +7,7 @@ const Men = () => {
       <Divider />
       <UsePage
         name='women'
-        collection='T-shirts'
+        collection='clothes'
         field='category'
         value='women'
       />

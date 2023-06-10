@@ -11,6 +11,7 @@ const Products = () => {
   const { response, dispatch } = useCollection('clothes')
   const data = response.sorted_products
   const { deleteDocument } = useFirestore('clothes')
+  console.log(data)
 
   //Pagination states
   const [currentPage, setCurrentPage] = useState(1)
@@ -51,6 +52,7 @@ const Products = () => {
             <th>Color and InStock</th>
             <th>Images</th>
             <th>Type</th>
+            <th>Discount</th>
             <th>Action</th>
           </tr>
         </thead>
@@ -67,6 +69,7 @@ const Products = () => {
                 images,
                 type,
                 thumbnailPhoto,
+                discount,
               } = item
 
               return (
@@ -106,6 +109,7 @@ const Products = () => {
                   <td>
                     <p>{type}</p>
                   </td>
+                  <td>{discount ? `-${discount}%` : 'n/a'}</td>
                   <td>
                     <Link to={`/admin/add-product/${id}`}>
                       <img src={edit} className='mr-s w-2-icon icon' />

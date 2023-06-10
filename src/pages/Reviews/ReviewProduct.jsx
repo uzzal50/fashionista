@@ -15,7 +15,7 @@ const ReviewProduct = () => {
   const [review, setReview] = useState('')
   const [showReview, setShowReview] = useState(false)
   const { fetchSingleDocument, data, success, isLoading } =
-    useSingleDocument('T-shirts')
+    useSingleDocument('clothes')
   const { user } = useAuthContext()
   const dispatch = useDispatch()
 
@@ -25,7 +25,6 @@ const ReviewProduct = () => {
     fetchSingleDocument(id)
   }, [id])
 
-  console.log(data)
   useEffect(() => {
     if (response.success) {
       setRate(0)
@@ -59,13 +58,13 @@ const ReviewProduct = () => {
     <Wrapper className='mtb-m'>
       <div className='container'>
         <h2 className='secondary-heading'>Review Product</h2>
-        <div className='review-container d-grid'>
+        <div className='review-container d-grid grid-1-col gap-2'>
           <div className='order-details'>
             <p>Product Name : {data && data.name}</p>
             <span className='sub-heading sub-text mb-m'>
               Price : ${data && data.price}
             </span>
-            <div className='image-container d-grid'>
+            <div className='image-container d-grid grid-3-col gap-2'>
               {data &&
                 success &&
                 data.images.map((item, i) => {
@@ -93,10 +92,15 @@ const ReviewProduct = () => {
                 className='mb-m'
                 value={review}
                 required
+                style={{ resize: 'none' }}
                 onChange={e => setReview(e.target.value)}
               ></textarea>
               <div className='d-flex a-center'>
-                <button className='btn p-m f-d mr-s' type='submit'>
+                <button
+                  className='btn p-m f-d mr-s'
+                  type='submit'
+                  disabled={response.isPending}
+                >
                   {response.isPending ? (
                     <div className='lds-dual-ring'></div>
                   ) : (
@@ -119,13 +123,4 @@ const ReviewProduct = () => {
 
 export default ReviewProduct
 
-const Wrapper = styled.section`
-  .review-container {
-    grid-template-columns: 1fr 1fr;
-    gap: 2.4rem;
-    .image-container {
-      grid-template-columns: repeat(3, 1fr);
-      gap: 2rem;
-    }
-  }
-`
+const Wrapper = styled.section``

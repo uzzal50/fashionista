@@ -1,115 +1,181 @@
+import { useForm } from 'react-hook-form'
 import styled from 'styled-components'
-import CartCheckoutSummary from '../Cart/CartCheckoutSummary'
-import { useState } from 'react'
+import { DevTool } from '@hookform/devtools'
+import { useDispatch, useSelector } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
-import { SAVE_CUSTOMER_DETAILS } from '../../redux/Slice/checkout/checkOutSlice'
-import { useDispatch } from 'react-redux'
 import { useAuthContext } from '../../hooks/useAuthContext'
-
+import CartCheckoutSummary from '../Cart/CartCheckoutSummary'
+import { CLEAR_CART, CALCULATE_TOTAL } from '../../redux/Slice/cart/cartSlice'
+import { PAYMENT_SUCCESS } from '../../redux/Slice/checkout/checkOutSlice'
+import { useFirestore } from '../../hooks/useFirestore'
+import { useEffect } from 'react'
+import { OPEN_MESSAGE } from '../../redux/Slice/Message/messageSlice'
 const Checkout = () => {
-  const [customerDetails, setCustomerDetails] = useState({
-    city: '',
-    address: '',
-    phone: '',
-    addInfo: '',
-  })
-
-  const { user } = useAuthContext()
-  const { displayName, email } = user && user
   const dispatch = useDispatch()
   const navigate = useNavigate()
-  const handleClick = e => {
-    e.preventDefault()
+  const { user } = useAuthContext()
+  const { cartItems, cartTotalAmount } = useSelector(state => state.cart)
+  const { displayName, email } = user && user
+  const { addAnyDocument, response } = useFirestore('orders')
 
-    dispatch(SAVE_CUSTOMER_DETAILS(customerDetails))
-    navigate('/cart/payment')
-  }
-
-  const handleChange = e => {
-    const field = e.target.name
-    const value = e.target.value
-    setCustomerDetails({
-      ...customerDetails,
-      displayName,
+  const form = useForm({
+    defaultValues: {
       email,
-      [field]: value,
-    })
+      name: displayName,
+      city: '',
+      address: '',
+      phone: '',
+      additionalInfo: '',
+      payment: '',
+      cartItems: cartItems,
+    },
+  })
+
+  const { register, handleSubmit, formState, control } = form
+  const { errors, isSubmitting } = formState
+
+  const onSubmit = data => {
+    const orderConfig = {
+      uid: user.uid,
+      cartItems,
+      customerDetails: data,
+      amount: cartTotalAmount,
+      orderStatus: 'placed-order',
+    }
+
+    addAnyDocument(orderConfig)
   }
+
+  useEffect(() => {
+    if (response.success) {
+      dispatch(CLEAR_CART())
+      dispatch(CALCULATE_TOTAL())
+      dispatch(PAYMENT_SUCCESS())
+      navigate('/cart/order-success')
+    }
+  }, [response.success])
+
   return (
     <Wrapper>
       <div className='checkout-container container-sw d-grid mtb-l'>
         <div className='customer-information-container'>
-          <form onSubmit={handleClick}>
-            <h3 className='tertiary-heading mb-m'>Customer Information</h3>
-            <input
-              type='text'
-              id='email'
-              name='email'
-              value={user && user.email}
-              // placeholder='Username or Email*'
-              // value={customerDetails.email}
-              // onChange={e => handleChange(e)}
-              readOnly
-            />
+          {/* <p className='error-text'>{errors.cartItems?.message}</p> */}
+          <form onSubmit={handleSubmit(onSubmit)} noValidate>
+            <h3 className='tertiary-heading mb-m f-w-400'>
+              Customer Information
+            </h3>
+            <div className='form-control'>
+              <label>
+                <input
+                  type='text'
+                  {...register('email', {
+                    required: 'email is Required',
+                  })}
+                />
+              </label>
+              <p className='error-text'>{errors.email?.message} </p>
+            </div>
 
-            <label>
-              <h3 className='tertiary-heading mb-m'>Billing Details</h3>
-              <div className='full-name d-flex'>
+            <h3 className='tertiary-heading mb-s f-w-400'>Billing Details</h3>
+
+            <div className='form-control'>
+              <label className='m-0'>
                 <input
-                  required
                   type='text'
-                  name='fullName'
-                  value={user && user.displayName}
-                  readOnly
-                  // placeholder='Full Name*'
-                  // value={customerDetails.fullName}
-                  // onChange={e => handleChange(e)}
+                  {...register('name', {
+                    required: 'Name is Required',
+                  })}
                 />
-              </div>
-            </label>
-            <label>
-              <div className='full-name d-flex'>
+                <p className='error-text'>{errors.name?.message} </p>
+              </label>
+            </div>
+            <div className='form-group'>
+              <label className=' d-flex a-center gap-2'>
+                <div className='form-control w-50'>
+                  <input
+                    type='text'
+                    {...register('city', {
+                      required: 'City is required.',
+                    })}
+                    placeholder='City*'
+                  />
+                  <p className='error-text'>{errors.city?.message} </p>
+                </div>
+
+                <div className='form-control w-50'>
+                  <input
+                    type='text'
+                    {...register('address', {
+                      required: 'Address is Required',
+                    })}
+                    placeholder='Shipping Address*'
+                  />
+                  <p className='error-text'>{errors.address?.message} </p>
+                </div>
+              </label>
+            </div>
+            <div className='form-control'>
+              <label>
                 <input
-                  required
-                  type='text'
-                  placeholder='City*'
-                  name='city'
-                  value={customerDetails.city}
-                  onChange={e => handleChange(e)}
+                  type='number'
+                  {...register('phone', {
+                    valueAsNumber: true,
+                    required: 'Phone is Required',
+                  })}
+                  placeholder='Phone*'
                 />
+                <p className='error-text'>{errors.phone?.message} </p>
+              </label>
+            </div>
+
+            <div className='form-control'>
+              <label>
+                <h3 className='tertiary-heading mb-s f-w-400'>
+                  Additional Information
+                </h3>
+                <textarea
+                  style={{ resize: 'none' }}
+                  {...register('additionalInfo')}
+                  placeholder='Notes about your Order.'
+                />
+              </label>
+            </div>
+            <div className='form-control'>
+              <label>
+                {' '}
+                <h3 className='tertiary-heading mb-s f-w-400'>Payment</h3>
                 <input
-                  required
-                  type='text'
-                  placeholder='Shipping Address*'
-                  name='address'
-                  value={customerDetails.address}
-                  onChange={e => handleChange(e)}
+                  type='number'
+                  {...register('payment', {
+                    valueAsNumber: true,
+                    required: 'Payment is Required',
+                    validate: {
+                      notPayment: value => {
+                        return (
+                          value === 4242 ||
+                          'Enter 4242 for Payemnt Confirmation or else Payemnt Declined.'
+                        )
+                      },
+                    },
+                  })}
+                  placeholder='Enter 4242 for Payment.*'
                 />
-              </div>
-            </label>
-            <label>
-              <input
-                required
-                type='number'
-                placeholder='Phone*'
-                name='phone'
-                value={customerDetails.phone}
-                onChange={e => handleChange(e)}
-              />
-            </label>
-            <label>
-              <h3 className='tertiary-heading mb-m'>Additional Information</h3>
-              <textarea
-                style={{ resize: 'none' }}
-                type='text'
-                placeholder='Notes about your order.'
-                name='addInfo'
-                value={customerDetails.addInfo}
-                onChange={e => handleChange(e)}
-              />
-            </label>
-            <button className='btn w-100'>Proceed To Payment</button>
+                <p className='error-text'>{errors.payment?.message} </p>
+              </label>
+            </div>
+
+            <button
+              className='btn w-100'
+              disabled={response.isPending || isSubmitting}
+            >
+              {response.isPending ? (
+                <div className='lds-dual-ring'></div>
+              ) : (
+                'Confirm Order'
+              )}
+            </button>
           </form>
+          <DevTool control={control} />
         </div>
         <div className='order-container'>
           <CartCheckoutSummary />

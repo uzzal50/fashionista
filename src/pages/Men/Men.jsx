@@ -5,7 +5,7 @@ const Men = () => {
   return (
     <div>
       <Divider />
-      <UsePage name='men' collection='T-shirts' field='category' value='men' />
+      <UsePage name='men' collection='clothes' field='category' value='men' />
     </div>
   )
 }

@@ -11,7 +11,11 @@ import clos from './clos.svg'
 import star from './star.svg'
 import search from './search.svg'
 import closeSearch from './closeSearch.svg'
-
+import next_arrow_hover from './next-arrow-hover.svg'
+import prev_arrow_hover from './prev-arrow-hover.svg'
+import fb from './fb.svg'
+import tw from './tw.svg'
+import insta from './insta.svg'
 export {
   edit,
   trash,
@@ -26,4 +30,9 @@ export {
   star,
   search,
   closeSearch,
+  next_arrow_hover,
+  prev_arrow_hover,
+  fb,
+  tw,
+  insta,
 }

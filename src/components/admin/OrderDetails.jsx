@@ -19,8 +19,6 @@ const OrderDetails = () => {
     getData().then(data => setOrder(data))
   }, [data, order])
 
-  console.log(order)
-
   return (
     <Wrapper>
       <div className='order-details-wrapper d-grid'>
@@ -31,17 +29,14 @@ const OrderDetails = () => {
                 return (
                   <div key={i} className='d-flex j-space-between mb-m a-center'>
                     <div
-                      style={{ height: '8rem', width: '8rem', gap: '1rem' }}
-                      className='d-flex'
+                      style={{ height: '8rem', width: '8rem' }}
+                      className='d-flex gap-1'
                     >
-                      {item.images.map(img => (
-                        <img
-                          className='w-100 h-100'
-                          src={img}
-                          key={img}
-                          style={{ objectFit: 'contain' }}
-                        />
-                      ))}
+                      <img
+                        className='w-100 h-100'
+                        src={item.addedItem.image}
+                        style={{ objectFit: 'contain' }}
+                      />
                     </div>
                     <div>
                       <p>Price: $ {item.price}</p>
@@ -57,9 +52,14 @@ const OrderDetails = () => {
                 <p>Shipping Address : {order.customerDetails.address}</p>
                 <p>City : {order.customerDetails.city}</p>
                 <p>Phone : {order.customerDetails.phone}</p>
-                <p>Name : {order.customerDetails.fullName}</p>
+                <p>Name : {order.customerDetails.name}</p>
                 <p>Email : {order.customerDetails.email}</p>
-                <p>Additional Info : {order.customerDetails.addInfo}</p>
+                <p>
+                  Additional Info :{' '}
+                  {order.customerDetails.addInfo
+                    ? order.customerDetails.addInfo
+                    : 'No Info'}
+                </p>
                 <p>{}</p>
               </div>
             </div>

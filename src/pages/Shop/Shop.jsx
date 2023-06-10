@@ -5,7 +5,7 @@ const Shop = () => {
   return (
     <div>
       <Divider />
-      <UsePage name='shop' collection='T-shirts' />
+      <UsePage name='shop' collection='clothes' />
     </div>
   )
 }

@@ -69,20 +69,22 @@ export const useFirestore = coll => {
   }
 
   //add order document
-  const addAnyDocument = async doc => {
+  const addAnyDocument = async data => {
     try {
       dispatch({ type: 'IS_PENDING' })
 
       const addedDocument = await addDoc(refs, {
-        ...doc,
+        ...data,
         createdAt: serverTimestamp(),
       })
-      await dispatchIfNotCancelled({
+
+      dispatchIfNotCancelled({
         type: 'ADDED_DOCUMENT',
         payload: addedDocument,
       })
     } catch (error) {
-      dispatchIfNotCancelled({ type: 'ERROR', payload: err.message })
+      dispatchIfNotCancelled({ type: 'ERROR', payload: error.message })
+      console.log(error.message)
     }
   }
 
@@ -104,6 +106,7 @@ export const useFirestore = coll => {
         category,
         description,
         type,
+        createdAt: serverTimestamp(),
       })
 
       //2. Storing thumbnail
@@ -151,13 +154,13 @@ export const useFirestore = coll => {
         },
         { merge: true }
       )
-      console.log(result)
+
       await dispatchIfNotCancelled({
         type: 'ADDED_DOCUMENT',
         payload: addedDocument,
       })
     } catch (error) {
-      dispatchIfNotCancelled({ type: 'ERROR', payload: err.message })
+      dispatchIfNotCancelled({ type: 'ERROR', payload: error.message })
     }
   }
 
@@ -182,8 +185,6 @@ export const useFirestore = coll => {
         )
         await deleteObject(imageRef)
       }
-
-      console.log('Deleted :)')
     } catch (error) {
       console.log(error.message)
     }

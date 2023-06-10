@@ -13,7 +13,6 @@ const Orders = () => {
             <th>Order No</th>
             <th>Order Date</th>
             <th>Order By</th>
-
             <th>Order Amount</th>
             <th>Order Status</th>
             <th>Action</th>

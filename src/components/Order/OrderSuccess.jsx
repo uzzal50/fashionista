@@ -16,9 +16,9 @@ const OrderSuccess = () => {
 
   return (
     <div className='container-sw mtb-l '>
-      <div className='d-flex a-center gap-2'>
+      <div className='text-center'>
         <h3
-          className='tertiary-heading'
+          className='tertiary-heading mb-m'
           style={{
             color: 'rgb(15, 81, 50)',
           }}

@@ -42,21 +42,6 @@ const Cart = () => {
               </div>
             </NavLink>
 
-            <div className='greater-than-sign'>{'>'}</div>
-            <NavLink
-              to='payment'
-              style={linkStyles}
-              className={
-                user && isCustomerDetailsFilled ? null : 'btn-disabled'
-              }
-            >
-              <div className='payment'>
-                <span className='number mr-s'>3</span>
-                <p className='d-inline-block'>PAYMENT</p>
-              </div>
-            </NavLink>
-
-            <div className='greater-than-sign'>{'>'}</div>
             <NavLink
               to='order-success'
               style={linkStyles}
@@ -92,7 +77,6 @@ const Wrapper = styled.section`
   }
 
   .cart-totals-details-container {
-    display: grid;
     grid-template-columns: 3fr 1fr;
     gap: 2.4rem;
   }

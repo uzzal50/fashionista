@@ -54,7 +54,7 @@ const UsePage = ({ name, collection, field, value }) => {
             {response.loading
               ? [1, 2, 3, 4].map(item => <SkeletonCard key={item} />)
               : data.map(item => {
-                  return <TshirtItem key={item.id} {...item} {...response} />
+                  return <TshirtItem key={item.id} data={item} {...response} />
                 })}
           </div>
         </div>

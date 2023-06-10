@@ -3,7 +3,6 @@ import styled from 'styled-components'
 import { Link } from 'react-router-dom'
 import { useDispatch } from 'react-redux'
 import bgImage from '../../assets/bgImage.png'
-
 import quickViewIcon from '../../assets/icons/quick-view.svg'
 import {
   OPEN_QUICK_VIEW,
@@ -11,8 +10,16 @@ import {
 } from '../../redux/Slice/cart-modal/cartModalSlice'
 
 const TshirtItem = ({ data }) => {
-  const { id, thumbnailPhoto, name, price, category, productDetails, type } =
-    data
+  const {
+    id,
+    thumbnailPhoto,
+    name,
+    price,
+    category,
+    productDetails,
+    type,
+    discount,
+  } = data
   const [isHover, setIsHovered] = useState(false)
   const dispatch = useDispatch()
   const imgRef = useRef(null)
@@ -22,7 +29,10 @@ const TshirtItem = ({ data }) => {
 
   return (
     <ItemWrapper className='item text-left p-relative'>
-      <div>
+      <div
+        onMouseEnter={() => setIsHovered(true)}
+        onMouseLeave={() => setIsHovered(false)}
+      >
         <Link to={`/product/${type}/${id}`}>
           <div
             className='img-container'
@@ -34,23 +44,28 @@ const TshirtItem = ({ data }) => {
               alt='img'
               className='w-100 h-100 t-shirt-img'
               onLoad={onLoad}
-              onMouseEnter={() => setIsHovered(true)}
-              onMouseLeave={() => setIsHovered(false)}
             />
           </div>
         </Link>
 
-        <div
-          data-tooltip='Quick View'
-          className={`quickView-Wrapper 
-            a-center ${isHover ? 'd-flex-j-center' : 'd-hidden'}`}
-          onClick={() => {
-            dispatch(OPEN_QUICK_VIEW())
-            dispatch(ADD_QUICK_MODAL_DOCUMENT(data))
-          }}
-        >
-          <img src={quickViewIcon} className='quick-view-icon p-absolute' />
-        </div>
+        {discount ? (
+          <div className='discounted-price p-absolute'>
+            <span>-{discount}%</span>
+          </div>
+        ) : null}
+
+        {isHover && (
+          <div
+            data-tooltip='Quick View'
+            className='quickView-Wrapper a-center d-flex-j-center'
+            onClick={() => {
+              dispatch(OPEN_QUICK_VIEW())
+              dispatch(ADD_QUICK_MODAL_DOCUMENT(data))
+            }}
+          >
+            <img src={quickViewIcon} className='quick-view-icon p-absolute' />
+          </div>
+        )}
       </div>
       <div className='box prl-s'>
         <div className='sub-heading mtb-s'>{category}</div>

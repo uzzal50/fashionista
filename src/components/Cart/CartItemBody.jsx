@@ -7,11 +7,16 @@ const CartItemBody = ({ cartItems }) => {
     <>
       {cartItems.map(item => {
         return (
-          <tr key={item.id}>
+          <tr key={item.idColor}>
             <td className='d-flex a-center'>
-              <img src={item.images[0]} alt='' className='w-30 mr-s' />
+              <img
+                src={
+                  item.productDetails.find(p => p.color === item.color).image
+                }
+                className='w-30 mr-s'
+              />
               <p className='mr-s'>{item.name}</p>
-              <p>({item.colors})</p>
+              <p>- {item.color}</p>
             </td>
             <td>
               <p>${item.price}.00</p>
@@ -31,7 +36,7 @@ const CartItemBody = ({ cartItems }) => {
                 src={close}
                 alt='close-btn'
                 onClick={() => {
-                  removeItem(item.id)
+                  removeItem(item.idColor)
                 }}
               />
             </td>

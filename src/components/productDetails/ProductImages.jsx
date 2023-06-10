@@ -1,7 +1,12 @@
 import styled from 'styled-components'
 import { useState } from 'react'
 
-const ProductImages = ({ productDetails, thumbnail, isSelectedColor }) => {
+const ProductImages = ({
+  productDetails,
+  thumbnail,
+  isSelectedColor,
+  discount,
+}) => {
   const [[x, y], setXY] = useState([0, 0])
   const [[imgWidth, imgHeight], setSize] = useState([0, 0])
   const [showMagnifier, setShowMagnifier] = useState(false)
@@ -68,8 +73,14 @@ const ProductImages = ({ productDetails, thumbnail, isSelectedColor }) => {
             backgroundPositionY: `${-y * 1.5 + 100 / 2}px`,
           }}
         ></div>
+
+        {discount ? (
+          <div className='discounted-price p-absolute'>
+            <span>-{discount}%</span>
+          </div>
+        ) : null}
       </div>
-      <div className='other-images d-grid'>
+      <div className='other-images grid-2-col gap-2'>
         {productDetails.map((item, index) => {
           return <img src={item.image} key={index} className='w-100' />
         })}
@@ -87,6 +98,7 @@ const Wrapper = styled.div`
     height: 60rem;
     img {
       object-fit: cover;
+      object-position: top;
     }
   }
 

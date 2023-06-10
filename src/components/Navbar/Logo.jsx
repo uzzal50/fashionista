@@ -9,7 +9,7 @@ const Logo = () => {
         <img src={logo} alt='main-logo' className='main-logo' />
       </Link>
       <button
-        className='ham btn-trans'
+        className='ham btn-trans b-none'
         onClick={() => setShowLinks(!showLinks)}
       >
         <img src={ham} alt='hamburger' />

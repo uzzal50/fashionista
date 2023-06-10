@@ -14,13 +14,12 @@ const cartSlice = createSlice({
   reducers: {
     ADD_TO_CART(state, action) {
       const productIndex = state.cartItems.findIndex(
-        item => item.id === action.payload.id
+        item => item.idColor === action.payload.idColor
       )
       if (productIndex >= 0) {
         state.cartItems[productIndex].quantity = action.payload.quantity
       } else {
-        const tempProduct = { ...action.payload }
-        state.cartItems.push(tempProduct)
+        state.cartItems.push(action.payload)
       }
 
       //add to local Storage
@@ -33,10 +32,13 @@ const cartSlice = createSlice({
           item => item.id === action.payload.id
         )
 
+        console.log(tempProduct)
         if (tempProduct >= 0) {
           if (
             state.cartItems[tempProduct].quantity <
-            state.cartItems[tempProduct].inStock
+            state.cartItems[tempProduct].productDetails.find(
+              p => p.color === state.cartItems[tempProduct].color
+            ).inStock
           ) {
             state.cartItems[tempProduct].quantity += 1
           }
@@ -64,7 +66,7 @@ const cartSlice = createSlice({
 
     REMOVE_CART_ITEM(state, action) {
       state.cartItems = state.cartItems.filter(
-        item => item.id !== action.payload
+        item => item.idColor !== action.payload
       )
       localStorage.setItem('cartItems', JSON.stringify(state.cartItems))
     },

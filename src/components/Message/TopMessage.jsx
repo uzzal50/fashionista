@@ -2,6 +2,7 @@ import styled from 'styled-components'
 import { useDispatch, useSelector } from 'react-redux'
 import { check, error, clos } from '../../assets/icons'
 import { CLOSE_MESSAGE } from '../../redux/Slice/Message/messageSlice'
+import { useEffect } from 'react'
 
 const TopMessage = ({ text, type }) => {
   const { showMsg } = useSelector(state => state.message)

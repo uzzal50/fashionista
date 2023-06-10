@@ -9,8 +9,9 @@ import ModalOverlay from '../Cart/ModalOverlay'
 
 const QuickViewModal = () => {
   const { data } = useSelector(state => state.cartModal)
-  const { images, name, price, category, description, thumbnailPhoto } = data
+  const { images, name, price, category, description, productDetails } = data
 
+  console.log(data)
   const dispatch = useDispatch()
   const [onHover, setOnHover] = useState(null)
   const [currImgIndex, setCurrImgIndex] = useState(0)
@@ -33,16 +34,17 @@ const QuickViewModal = () => {
       setCurrImgIndex(newIndex)
     }
   }
-  useEffect(() => {
-    if (timerRef.current) {
-      clearTimeout(timerRef.current)
-    }
-    timerRef.current = setTimeout(() => {
-      handleNextImage()
-    }, 2000)
+  //for autoplay image
+  // useEffect(() => {
+  //   if (timerRef.current) {
+  //     clearTimeout(timerRef.current)
+  //   }
+  //   timerRef.current = setTimeout(() => {
+  //     handleNextImage()
+  //   }, 2000)
 
-    return () => clearTimeout(timerRef.current)
-  }, [handleNextImage])
+  //   return () => clearTimeout(timerRef.current)
+  // }, [handleNextImage])
   return ReactDOM.createPortal(
     <>
       <Wrapper>
@@ -82,7 +84,18 @@ const QuickViewModal = () => {
               <span className='sub-heading'>{category}</span>
               <h2 className='secondary-heading mb-s'>{capital(name)}</h2>
               <span className='sub-heading'>${price}</span>
-              <p>{description}</p>
+              <p className='mb-m'>{description}</p>
+              {productDetails.map(item => {
+                return (
+                  <button
+                    key={item.color}
+                    className='p-s-tb btn-trans color-btn'
+                    style={{ border: '1px solid rgba(0, 0, 0, 0.14)' }}
+                  >
+                    {item.color}
+                  </button>
+                )
+              })}
             </div>
           </div>
         </div>
