@@ -12,12 +12,7 @@ import { useDispatch, useSelector } from 'react-redux'
 const UsePage = ({ name, collection, field, value }) => {
   const reduxDispatch = useDispatch()
   const { clonedDocuments } = useSelector(state => state.sort)
-  const { data, success, loading } = useCollection(collection, field, value)
-  const { data: reviews } = useCollection('reviews')
-
-  useEffect(() => {
-    reduxDispatch(SAVE_ALL_DOUMENTS(data))
-  }, [data])
+  const { data, loading } = useCollection(collection, field, value)
 
   const updateSort = e => {
     reduxDispatch(SORT_DOCUMENTS(e.target.value))

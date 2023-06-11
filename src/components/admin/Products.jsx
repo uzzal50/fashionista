@@ -2,16 +2,21 @@ import { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 import styled from 'styled-components'
 import { edit, trash } from '../../assets/icons'
-import { useCollection } from '../../hooks/useCollection'
 import { useFirestore } from '../../hooks/useFirestore'
 import Pagination from '../pagination/Pagination'
+import { useSelector, useDispatch } from 'react-redux'
+import {
+  SAVE_ALL_DOUMENTS,
+  SORT_DOCUMENTS,
+} from '../../redux/Slice/sort/sortSlice'
+import { useCollection } from '../../hooks/useCollection'
 
 const Products = () => {
+  const dispatch = useDispatch()
   const [term, setTerm] = useState('')
-  const { response, dispatch } = useCollection('clothes')
-  const data = response.sorted_products
+  const { data } = useCollection('clothes')
+  const { clonedDocuments } = useSelector(state => state.sort)
   const { deleteDocument } = useFirestore('clothes')
-  console.log(data)
 
   //Pagination states
   const [currentPage, setCurrentPage] = useState(1)
@@ -21,11 +26,15 @@ const Products = () => {
 
   const indexOfLastProduct = currentPage * productsPerPage
   const indexOfFirstProduct = indexOfLastProduct - productsPerPage
-  const currentProducts = data.slice(indexOfFirstProduct, indexOfLastProduct)
+  const currentProducts = clonedDocuments.slice(
+    indexOfFirstProduct,
+    indexOfLastProduct
+  )
 
   useEffect(() => {
-    dispatch({ type: 'SEARCH_TERM', payload: term })
-  }, [term])
+    dispatch(SAVE_ALL_DOUMENTS(data))
+    dispatch(SORT_DOCUMENTS(term))
+  }, [data, term])
 
   return (
     <Wrapper>
@@ -58,84 +67,83 @@ const Products = () => {
         </thead>
 
         <tbody>
-          {data &&
-            currentProducts.map(item => {
-              const {
-                id,
-                name,
-                price,
-                category,
-                productDetails,
-                images,
-                type,
-                thumbnailPhoto,
-                discount,
-              } = item
+          {currentProducts.map(item => {
+            const {
+              id,
+              name,
+              price,
+              category,
+              productDetails,
+              images,
+              type,
+              thumbnailPhoto,
+              discount,
+            } = item
 
-              return (
-                <tr key={id}>
-                  <td>
-                    <p>{id}</p>
-                  </td>
-                  <td>
-                    <p>{name}</p>
-                  </td>
-                  <td>
-                    <p> {price} </p>
-                  </td>
-                  <td>
-                    <p> {category} </p>
-                  </td>
-                  <td>
-                    <p>
-                      {' '}
-                      <img src={thumbnailPhoto} className='w-4-icon' />{' '}
-                    </p>
-                  </td>
-                  <td>
-                    {productDetails.map((item, index) => {
-                      return (
-                        <div key={index} className='d-flex gap-1 a-center'>
-                          <p>{item.color}</p>-<p>{item.inStock}</p>
-                        </div>
+            return (
+              <tr key={id}>
+                <td>
+                  <p>{id}</p>
+                </td>
+                <td>
+                  <p>{name}</p>
+                </td>
+                <td>
+                  <p> {price} </p>
+                </td>
+                <td>
+                  <p> {category} </p>
+                </td>
+                <td>
+                  <p>
+                    {' '}
+                    <img src={thumbnailPhoto} className='w-4-icon' />{' '}
+                  </p>
+                </td>
+                <td>
+                  {productDetails.map((item, index) => {
+                    return (
+                      <div key={index} className='d-flex gap-1 a-center'>
+                        <p>{item.color}</p>-<p>{item.inStock}</p>
+                      </div>
+                    )
+                  })}
+                </td>
+                <td className='text-left'>
+                  {images.map((img, index) => (
+                    <img src={img} key={index} className='w-4-icon' />
+                  ))}
+                </td>
+                <td>
+                  <p>{type}</p>
+                </td>
+                <td>{discount ? `-${discount}%` : 'n/a'}</td>
+                <td>
+                  <Link to={`/admin/add-product/${id}`}>
+                    <img src={edit} className='mr-s w-2-icon icon' />
+                  </Link>
+
+                  <img
+                    src={trash}
+                    className='icon trash w-2-icon'
+                    onClick={() =>
+                      deleteDocument(
+                        id,
+                        productDetails.map(item => item.color)
                       )
-                    })}
-                  </td>
-                  <td className='text-left'>
-                    {images.map((img, index) => (
-                      <img src={img} key={index} className='w-4-icon' />
-                    ))}
-                  </td>
-                  <td>
-                    <p>{type}</p>
-                  </td>
-                  <td>{discount ? `-${discount}%` : 'n/a'}</td>
-                  <td>
-                    <Link to={`/admin/add-product/${id}`}>
-                      <img src={edit} className='mr-s w-2-icon icon' />
-                    </Link>
-
-                    <img
-                      src={trash}
-                      className='icon trash w-2-icon'
-                      onClick={() =>
-                        deleteDocument(
-                          id,
-                          productDetails.map(item => item.color)
-                        )
-                      }
-                    />
-                  </td>
-                </tr>
-              )
-            })}
+                    }
+                  />
+                </td>
+              </tr>
+            )
+          })}
         </tbody>
       </table>
       <Pagination
         currentPage={currentPage}
         setCurrentPage={setCurrentPage}
         productsPerPage={productsPerPage}
-        totalProducts={data.length}
+        totalProducts={clonedDocuments.length}
       />
     </Wrapper>
   )
