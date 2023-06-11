@@ -14,6 +14,10 @@ const UsePage = ({ name, collection, field, value }) => {
   const { clonedDocuments } = useSelector(state => state.sort)
   const { data, loading } = useCollection(collection, field, value)
 
+  useEffect(() => {
+    reduxDispatch(SAVE_ALL_DOUMENTS(data))
+  }, [data])
+
   const updateSort = e => {
     reduxDispatch(SORT_DOCUMENTS(e.target.value))
   }
