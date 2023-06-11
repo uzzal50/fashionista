@@ -5,22 +5,20 @@ import { useDispatch } from 'react-redux'
 import SkeletonCard from '../skeleton/SkeletonCard'
 import { useCollection } from '../../hooks/useCollection'
 import { LOAD_POPULAR, LOAD_SALE } from '../../redux/Slice/popular/PopularSlice'
+import { SAVE_ALL_DOUMENTS } from '../../redux/Slice/sort/sortSlice'
 
 const Popular = ({ type }) => {
-  const { data, response } = useCollection('clothes', 'type', type)
-  const { loading } = response
   const dispatch = useDispatch()
+  const { data, loading, success } = useCollection('clothes', 'type', type)
 
   useEffect(() => {
-    if (response.success && type === 'popular') {
+    if (success && type === 'popular') {
       dispatch(LOAD_POPULAR(data))
-      return
     }
-
-    if (response.success && type === 'sale') {
+    if (success && type === 'sale') {
       dispatch(LOAD_SALE(data))
     }
-  }, [response.success])
+  }, [success])
 
   return (
     <PopularWrapper className='popular-tshirts mtb-l text-center'>

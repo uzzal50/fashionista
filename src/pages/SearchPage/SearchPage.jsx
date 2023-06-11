@@ -1,9 +1,11 @@
-import { useEffect, useRef, useState } from 'react'
+import { useState } from 'react'
 import styled from 'styled-components'
 import { closeSearch, search } from '../../assets/icons'
 import { CLOSE_SEARCH_MODAL } from '../../redux/Slice/cart-modal/cartModalSlice'
 import { useDispatch } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
+import { SORT_DOCUMENTS } from '../../redux/Slice/sort/sortSlice'
+
 const SearchPage = () => {
   const [term, setTerm] = useState('')
 
@@ -15,9 +17,8 @@ const SearchPage = () => {
     if (!term) return
     else {
       dispatch(CLOSE_SEARCH_MODAL())
-      navigate('shop', {
-        state: term,
-      })
+      dispatch(SORT_DOCUMENTS(term))
+      navigate('shop')
     }
   }
 
@@ -35,13 +36,16 @@ const SearchPage = () => {
             value={term}
             onChange={e => setTerm(e.target.value)}
           />
-          <button className='btn-trans search-btn w-3-icon' type='submit'>
+          <button
+            className='btn-trans search-btn w-3-icon b-none'
+            type='submit'
+          >
             <img src={search} alt='search' className='w-100' />
           </button>
         </form>
       </div>
       <button
-        className='btn-trans w-3-icon search-close-btn'
+        className='btn-trans w-3-icon search-close-btn b-none'
         onClick={() => dispatch(CLOSE_SEARCH_MODAL())}
       >
         <img src={closeSearch} alt='close' className='w-100' />

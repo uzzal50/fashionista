@@ -1,18 +1,16 @@
 import { useReducer, useEffect } from 'react'
-import { sortReducer } from '../Reducers/sort_reducer'
+import { collectionReducer } from '../Reducers/collectionReducer'
 import { db } from '../../firebase/config'
 import { collection, onSnapshot, query, where } from 'firebase/firestore'
 
 const initialState = {
   loading: false,
-  all_products: [],
-  sorted_products: [],
-  sort: 'low-price',
+  documents: [],
   success: false,
 }
 
 export const useCollection = (coll, field, value) => {
-  const [response, dispatch] = useReducer(sortReducer, initialState)
+  const [response, dispatch] = useReducer(collectionReducer, initialState)
 
   useEffect(() => {
     dispatch({ type: 'IS_LOADING' })
@@ -34,8 +32,9 @@ export const useCollection = (coll, field, value) => {
   }, [coll])
 
   return {
-    data: response.all_products,
+    data: response.documents,
     loading: response.loading,
+    success: response.success,
     response,
     dispatch,
   }

@@ -31,6 +31,7 @@ const Product = () => {
     productDetails,
     thumbnailPhoto,
     discount,
+    name,
   } = data
 
   useEffect(() => {

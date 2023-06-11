@@ -9,6 +9,7 @@ import checkOutReducer from './Slice/checkout/checkOutSlice'
 import popularReducer from './Slice/popular/PopularSlice'
 import orderReducer from './Slice/Order/orderSlice'
 import messageReducer from './Slice/Message/messageSlice'
+import sortReducer from './Slice/sort/sortSlice'
 
 const rootReducer = combineReducers({
   cart: cartReducer,
@@ -17,6 +18,7 @@ const rootReducer = combineReducers({
   checkout: checkOutReducer,
   order: orderReducer,
   message: messageReducer,
+  sort: sortReducer,
 })
 
 const store = configureStore({

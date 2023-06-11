@@ -3,34 +3,25 @@ import { useEffect } from 'react'
 import { SkeletonCard, TshirtItem } from '../components'
 import { useCollection } from './useCollection'
 import { capital } from '../utils'
-import { useLocation } from 'react-router-dom'
+import {
+  SAVE_ALL_DOUMENTS,
+  SORT_DOCUMENTS,
+} from '../redux/Slice/sort/sortSlice'
+import { useDispatch, useSelector } from 'react-redux'
 
 const UsePage = ({ name, collection, field, value }) => {
-  const { response, dispatch } = useCollection(collection, field, value)
-  const data = response.sorted_products
-  const location = useLocation()
+  const reduxDispatch = useDispatch()
+  const { clonedDocuments } = useSelector(state => state.sort)
+  const { data, success, loading } = useCollection(collection, field, value)
+  const { data: reviews } = useCollection('reviews')
+
+  useEffect(() => {
+    reduxDispatch(SAVE_ALL_DOUMENTS(data))
+  }, [data])
 
   const updateSort = e => {
-    const value = e.target.value
-    dispatch({ type: 'UPDATE_SORT', payload: value })
+    reduxDispatch(SORT_DOCUMENTS(e.target.value))
   }
-
-  useEffect(() => {
-    if (response.success) dispatch({ type: 'SORT_PRODUCTS' })
-    if (location.state) {
-      dispatch({ type: 'SEARCH_TERM', payload: location.state })
-
-      return
-    } else null
-  }, [response.sort, response.success, location.state])
-
-  useEffect(() => {
-    window.scrollTo({
-      top: 0,
-      left: 0,
-      behavior: 'auto',
-    })
-  }, [])
 
   return (
     <Wrapper>
@@ -51,10 +42,10 @@ const UsePage = ({ name, collection, field, value }) => {
             </select>
           </div>
           <div className='item-container grid-4-col'>
-            {response.loading
+            {loading
               ? [1, 2, 3, 4].map(item => <SkeletonCard key={item} />)
-              : data.map(item => {
-                  return <TshirtItem key={item.id} data={item} {...response} />
+              : clonedDocuments.map(item => {
+                  return <TshirtItem key={item.id} data={item} />
                 })}
           </div>
         </div>
