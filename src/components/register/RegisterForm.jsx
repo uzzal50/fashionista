@@ -127,7 +127,7 @@ const RegisterForm = () => {
           </label>
         </div>
         <div className=' text-end'>
-          <button className='btn-sm f-d w-30 c-pointer' disabled={isPending}>
+          <button className='btn-sm f-d c-pointer w-100' disabled={isPending}>
             {isPending ? <div className='lds-dual-ring'></div> : 'Register'}
           </button>
         </div>
@@ -138,9 +138,6 @@ const RegisterForm = () => {
 
 export default RegisterForm
 const Wrapper = styled.div`
-  width: 70%;
-  margin-left: auto;
-  margin-right: auto;
   padding: 4.6rem 0;
   .heading {
     font-size: 2.8rem;

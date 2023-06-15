@@ -19,7 +19,7 @@ const Description = ({ desc, id }) => {
         <hr />
         <div className='tab-item'>
           <div className='tab-head d-flex j-space-between a-center'>
-            <h3 className='tertiary-heading'>Description</h3>
+            <p className='f-m fw-500'>Description</p>
             <div
               className='plus'
               onClick={() => {
@@ -43,7 +43,7 @@ const Description = ({ desc, id }) => {
         <hr />
         <div className='tab-item'>
           <div className='tab-head d-flex j-space-between a-center'>
-            <h3 className='tertiary-heading'>Additional Information</h3>
+            <p className='f-m fw-500'>Additional Information</p>
             <div
               className='plus'
               onClick={() => {
@@ -67,7 +67,7 @@ const Description = ({ desc, id }) => {
         <hr />
         <div className='tab-item'>
           <div className='tab-head d-flex j-space-between a-center'>
-            <h3 className='tertiary-heading'>Reviews</h3>
+            <p className='f-m fw-500'>Reviews</p>
             <div
               className='plus'
               onClick={() =>

@@ -1,4 +1,5 @@
 import styled from 'styled-components'
+import { useState } from 'react'
 import { Link } from 'react-router-dom'
 import { cart, search } from '../../assets/Navbar'
 import { useAuthContext } from '../../hooks/useAuthContext'
@@ -13,6 +14,7 @@ import { useEffect } from 'react'
 
 const Navbar = () => {
   const { authIsReady, user } = useAuthContext()
+  const [showLinks, setShowLinks] = useState(false)
   const dispatch = useDispatch()
   const { cartTotalQuantity, cartTotalAmount } = useSelector(
     state => state.cart
@@ -23,11 +25,11 @@ const Navbar = () => {
 
   return (
     <>
-      <NavContainer className='container header-wrapper d-grid'>
+      <NavContainer className='header-wrapper d-grid'>
         <div className='nav-center'>
-          <Logo />
+          <Logo showLinks={showLinks} setShowLinks={setShowLinks} />
         </div>
-        <MainLinks />
+        <MainLinks showLinks={showLinks} setShowLinks={setShowLinks} />
         <div className='cart-search-container'>
           <div
             className='search-icon'
@@ -43,7 +45,9 @@ const Navbar = () => {
                 style={{ cursor: 'pointer' }}
               >
                 <img src={cart} alt='cart' className='cart-icon' />
-                <span className='cart-value'>{cartTotalQuantity}</span>
+                <span className='cart-value d-flex-j-center a-center'>
+                  {cartTotalQuantity}
+                </span>
               </div>
             </div>
           </div>
@@ -69,20 +73,26 @@ const NavContainer = styled.header`
   min-height: 8rem;
   align-items: center;
   grid-column-gap: 2rem;
+  .nav-left {
+    height: 100%;
+  }
   .nav-links {
     list-style: none;
     text-transform: uppercase;
     display: flex;
     gap: 1.8rem;
+    .login-nav,
+    .profile-nav {
+      display: none;
+    }
 
     li {
-      border-bottom: 1px solid transparent;
+      // border-bottom: 1px solid transparent;
       transition: all ease-in-out 0.2s;
       a {
-        border-bottom: 1px solid transparent;
+        // border-bottom: 1px solid transparent;
       }
       &:hover {
-        border-bottom: 1px solid var(--primary) !important;
         opacity: 0.6;
       }
     }
@@ -114,9 +124,7 @@ const NavContainer = styled.header`
           height: 1.7rem;
           background-color: rgb(0, 0, 0);
           color: rgb(255, 255, 255);
-          display: flex;
-          justify-content: center;
-          align-items: center;
+
           top: -1rem;
           left: 1rem;
           border-radius: 50%;
@@ -135,15 +143,16 @@ const NavContainer = styled.header`
   }
 
   @media (max-width: 56em) {
+    margin: 1.2rem 0 0;
+
     display: block;
     .nav-left {
-      height: 0;
       overflow: hidden;
       transition: 0.3s ease-in-out all;
+      margin-bottom: 1.2rem;
+      height: 0;
     }
-    .cart-icon {
-      width: 2rem;
-    }
+
     .nav-center {
       display: flex;
       justify-content: space-between;
@@ -152,27 +161,53 @@ const NavContainer = styled.header`
     .nav-links {
       display: block;
       width: 100%;
-
+      height: auto;
       background-color: #faedeb;
       li {
         padding: 1.4rem 0.8rem;
+        border-bottom: 1px solid var(--border-color);
       }
-    }
-    html {
-      font-size: 40%;
+      .admin-list {
+        display: none;
+      }
+      .login-nav {
+        display: block;
+      }
     }
 
     .cart-search-container {
-      display: none;
+      .search-icon,
+      .profile,
+      .register-container {
+        display: none;
+      }
+      .cart-container {
+        position: absolute;
+        top: 22px;
+        right: 85px;
+        img {
+          width: 3rem;
+        }
+        .cart-value {
+          left: 1.5rem !important;
+        }
+        .cart-icon {
+          width: 2.5rem !important;
+        }
+        .total {
+          font-size: 1.4rem;
+        }
+      }
     }
-    .main-logo {
-      width: 7rem;
-    }
+
     .ham {
       display: block;
       img {
-        width: 3.5rem;
+        width: 5rem;
       }
+    }
+    .main-logo {
+      height: 5rem;
     }
   }
 `

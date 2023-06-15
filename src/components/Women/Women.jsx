@@ -49,5 +49,21 @@ const Wrapper = styled.section`
         margin-bottom: 2.4rem;
       }
     }
+    @media (max-width: 25em) {
+      grid-template-columns: initial !important;
+      margin-bottom: 0;
+      .img-container {
+        img {
+          object-fit: contain;
+          object-position: center top;
+          margin: -5rem 0px 0rem;
+          width: 100%;
+        }
+      }
+      .text-container {
+        margin: 0;
+        background-color: var(--primary-bg-color);
+      }
+    }
   }
 `

@@ -25,7 +25,7 @@ const Popular = ({ type }) => {
       <div className='container-sw'>
         <span className='sub-heading'>summer collection</span>
         <h2 className='secondary-heading'>
-          {type === 'Related Products' ? type : `${type} T-shirts`}
+          {type === 'popular' ? 'Popular' : 'Sale'} T-shirts
         </h2>
         <div className='popular-tshirt-container grid-4-col'>
           {loading
@@ -42,4 +42,16 @@ const Popular = ({ type }) => {
 
 export default Popular
 
-const PopularWrapper = styled.section``
+const PopularWrapper = styled.section`
+  @media (max-width: 25em) {
+    .popular-tshirt-container {
+      grid-template-columns: repeat(2, 1fr);
+    }
+    .popular-tshirt-container .img-container {
+      min-height: 30rem;
+      img {
+        object-position: top;
+      }
+    }
+  }
+`

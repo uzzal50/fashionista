@@ -22,8 +22,8 @@ const Cart = () => {
       <Wrapper className='cart-container mtb-l'>
         <div className='container-sw'>
           <h2 className='secondary-heading'>Cart</h2>
-          <div className='cart-checkout-order-container d-flex-a-center-j-center '>
-            <NavLink end to='/cart' style={linkStyles}>
+          <div className='cart-checkout-order-container d-flex-a-center-j-center flex-wrap '>
+            <NavLink end to='/cart' style={linkStyles} variant='cart'>
               <div className='shopping-cart'>
                 <span className='number mr-s '>1</span>
                 <p className='d-inline-block'>SHOPPING CART</p>
@@ -35,6 +35,7 @@ const Cart = () => {
               to='checkout'
               style={linkStyles}
               className={user ? null : 'btn-disabled'}
+              variant='checkout'
             >
               <div className='checkout'>
                 <span className='number mr-s'>2</span>
@@ -45,6 +46,7 @@ const Cart = () => {
             <NavLink
               to='order-success'
               style={linkStyles}
+              variant='order'
               className={
                 user && isCustomerDetailsFilled && isPaymentSuccess
                   ? null
@@ -52,7 +54,7 @@ const Cart = () => {
               }
             >
               <div className='order'>
-                <span className='number mr-s'>4</span>
+                <span className='number mr-s'>3</span>
                 <p className='d-inline-block'>ORDER COMPLETE</p>
               </div>
             </NavLink>
@@ -79,5 +81,35 @@ const Wrapper = styled.section`
   .cart-totals-details-container {
     grid-template-columns: 3fr 1fr;
     gap: 2.4rem;
+  }
+  @media (max-width: 25em) {
+    .close-btn {
+      width: 2.4rem;
+    }
+
+    .shopping-cart-table {
+      thead {
+        display: none;
+      }
+      tbody tr td {
+        display: block;
+        width: 100%;
+        text-align: right;
+        border-top: 1px solid #dddddd;
+        &::before {
+          content: attr(data-title) ': ';
+          font-weight: 700;
+          float: left;
+        }
+      }
+      tbody tr {
+        & td:first-child {
+          text-align: center;
+        }
+        & td:first-child::before {
+          content: '';
+        }
+      }
+    }
   }
 `

@@ -20,7 +20,7 @@ const Home = () => {
   }, [data])
 
   return (
-    <main className='container'>
+    <main>
       <Hero />
       <Popular type='popular' />
       {quickView && <QuickViewModal />}

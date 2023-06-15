@@ -51,7 +51,7 @@ const CartSummary = ({}) => {
           </tr>
           <tr>
             <td>
-              <button className='btn'>
+              <button className='btn f-d'>
                 <Link to={user ? 'checkout' : '/login'}>
                   {user ? 'Proceed To CheckOut.' : 'Login To Checkout.'}
                 </Link>

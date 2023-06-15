@@ -1,33 +1,12 @@
 import styled from 'styled-components'
 import { star, next_arrow, prev_arrow } from '../../assets/icons/'
 import { useCollection } from '../../hooks/useCollection'
-import { useState } from 'react'
 import SkeletonReview from '../skeleton/SkeletonReview'
+import { useButton } from '../../hooks/useButton'
 
 const Reviews = () => {
-  const [index, setIndex] = useState(0)
-  const { data: rev, response } = useCollection('reviews')
-  const nextRev = () => {
-    setIndex(old => {
-      let newIndex = old + 1
-      if (newIndex > rev.length - 1) {
-        newIndex = 0
-        return newIndex
-      }
-      return newIndex
-    })
-  }
-
-  const prevRev = () => {
-    setIndex(old => {
-      let newIndex = old - 1
-      if (newIndex < 0) {
-        newIndex = rev.length - 1
-        return newIndex
-      }
-      return newIndex
-    })
-  }
+  const { data: rev } = useCollection('reviews')
+  const { num, nextButton, prevButton } = useButton(0, `${rev.length - 1}`)
 
   return (
     <>
@@ -35,12 +14,12 @@ const Reviews = () => {
         <h2 className='secondary-heading mb-m'>Reviews</h2>
         {rev && rev.length >= 1 ? (
           <>
-            <div className='review-item'>
-              <p className='review-text mb-m'>"{rev[index].review}"</p>
+            <div className='review-item p-m'>
+              <p className='review-text mb-m'>"{rev[num].review}"</p>
             </div>
             <div className='reviews'>
               <div className='star'>
-                {rev[index].rate === 5 ? (
+                {rev[num].rate === 5 ? (
                   <>
                     <img src={star} alt='' />
                     <img src={star} alt='' />
@@ -48,20 +27,20 @@ const Reviews = () => {
                     <img src={star} alt='' />
                     <img src={star} alt='' />
                   </>
-                ) : rev[index].rate === 4 ? (
+                ) : rev[num].rate === 4 ? (
                   <>
                     <img src={star} alt='' />
                     <img src={star} alt='' />
                     <img src={star} alt='' />
                     <img src={star} alt='' />
                   </>
-                ) : rev[index].rate === 3 ? (
+                ) : rev[num].rate === 3 ? (
                   <>
                     <img src={star} alt='' />
                     <img src={star} alt='' />
                     <img src={star} alt='' />
                   </>
-                ) : rev[index].rate === 2 ? (
+                ) : rev[num].rate === 2 ? (
                   <>
                     <img src={star} alt='' />
                     <img src={star} alt='' />
@@ -72,7 +51,7 @@ const Reviews = () => {
               </div>
 
               <span className='sub-heading customer-name'>
-                {rev[index].ReviewedBy.displayName}
+                {rev[num].ReviewedBy.displayName}
               </span>
             </div>
           </>
@@ -80,10 +59,10 @@ const Reviews = () => {
           <SkeletonReview />
         )}
 
-        <div className='prev-button' onClick={() => prevRev()}>
+        <div className='prev-button c-pointer' onClick={() => prevButton()}>
           <img src={prev_arrow} alt=' ' className='w-100 h-100' />
         </div>
-        <div className='next-button' onClick={() => nextRev()}>
+        <div className='next-button c-pointer' onClick={() => nextButton()}>
           <img src={next_arrow} alt='' className='w-100 h-100' />
         </div>
       </Wrapper>
@@ -129,6 +108,18 @@ const Wrapper = styled.section`
     }
     .customer-name {
       font-size: var(--xsmall-font-size);
+    }
+  }
+
+  @media (max-width: 25em) {
+    .prev-button {
+      transform: translate(0, -50%);
+    }
+    .next-button {
+      transform: translate(0, -50%);
+    }
+    .review-text {
+      padding: 0 1rem;
     }
   }
 `

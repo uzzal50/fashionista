@@ -67,12 +67,12 @@ const TshirtItem = ({ data }) => {
           </div>
         )}
       </div>
-      <div className='box prl-s'>
-        <div className='sub-heading mtb-s'>{category}</div>
-        <h3 className='tertiary-heading'>
+      <div className='box p-m'>
+        <p className='sub-heading mb-xs'>{category}</p>
+        <p className='f-m fw-500 mb-xs'>
           {name.charAt(0).toUpperCase() + name.slice(1)}
-        </h3>
-        <div className='mtb-s price'>${price}</div>
+        </p>
+        <p className='price'>${price}.00</p>
       </div>
     </ItemWrapper>
   )
@@ -83,7 +83,7 @@ export default TshirtItem
 const ItemWrapper = styled.article`
   .img-container {
     position: relative;
-    height: 33rem;
+    min-height: 35rem;
     background-position: center;
     background-size: cover;
 

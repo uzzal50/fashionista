@@ -4,9 +4,10 @@ import { CartItemBody } from '../'
 const CartContent = ({ cartItems }) => {
   return (
     <Wrapper className='product-details-container'>
-      <table>
+      <table className='shopping-cart-table'>
         <thead>
           <tr>
+            <th className='product-remove'></th>
             <th className='w-30'>Product</th>
             <th>Price</th>
             <th>Quantity</th>

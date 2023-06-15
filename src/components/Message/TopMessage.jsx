@@ -60,4 +60,12 @@ const Wrapper = styled.section`
     padding: 1.2rem;
     transition: all ease-in 0.2s;
   }
+  @media (max-width: 25em) {
+    .message-container {
+      width: 80%;
+      p {
+        width: max-content;
+      }
+    }
+  }
 `

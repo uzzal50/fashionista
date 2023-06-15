@@ -46,6 +46,10 @@ const Checkout = () => {
     addAnyDocument(orderConfig)
   }
 
+  register('cartItems', {
+    required: 'CartItems is Empty.',
+  })
+
   useEffect(() => {
     if (response.success) {
       dispatch(CLEAR_CART())
@@ -163,9 +167,9 @@ const Checkout = () => {
                 <p className='error-text'>{errors.payment?.message} </p>
               </label>
             </div>
-
+            <p className='error-text'>{errors.cartItems?.message} </p>
             <button
-              className='btn w-100'
+              className='btn w-100 f-s'
               disabled={response.isPending || isSubmitting}
             >
               {response.isPending ? (

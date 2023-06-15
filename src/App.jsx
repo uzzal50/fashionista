@@ -9,7 +9,7 @@ import Contact from './pages/Contact/Contact'
 import LoginPage from './pages/Login/LoginPage'
 import Register from './pages/Register/Register'
 import Product from './pages/Product/Product'
-import SkeletonFallback from './components/skeleton/SkeletonFallback'
+import SkeletonTable from './components/skeleton/SkeletonTable'
 import Home from './pages/Home/Home'
 import NotFound from './pages/NotFound/NotFound'
 import {
@@ -43,11 +43,13 @@ import ReviewProduct from './pages/Reviews/ReviewProduct'
 import OrderDetails from './components/admin/OrderDetails'
 import TopMessage from './components/Message/TopMessage'
 import SearchPage from './pages/SearchPage/SearchPage'
+import { useAuthContext } from './hooks/useAuthContext'
 
 function App() {
   const { isModalOpen, searchModal } = useSelector(state => state.cartModal)
   const { quickView } = useSelector(state => state.cartModal)
   const { text, type } = useSelector(state => state.message)
+  const { authIsReady } = useAuthContext()
 
   return (
     <>
@@ -99,22 +101,47 @@ function App() {
             path='profile/my-orders/review-product/:id'
             element={<ReviewProduct />}
           />
-          <Route
-            path='profile'
-            element={
-              <Suspense fallback={<SkeletonFallback />}>
-                <Profile />
-              </Suspense>
-            }
-          >
-            <Route path='my-wishlist' element={<MyWishlist />} />
-            <Route path='my-order' element={<MyOrder />} />
-            <Route path='my-profile' element={<MyProfile />} />
-            <Route index element={<MyProfile />} />
-          </Route>
+          {authIsReady ? (
+            <Route
+              path='profile'
+              element={
+                <Suspense fallback={<SkeletonTable />}>
+                  <UserLoggedIn>
+                    <Profile />
+                  </UserLoggedIn>
+                </Suspense>
+              }
+            >
+              <Route
+                path='my-wishlist'
+                element={
+                  <UserLoggedIn>
+                    <MyWishlist />
+                  </UserLoggedIn>
+                }
+              />
+              <Route
+                path='my-order'
+                element={
+                  <UserLoggedIn>
+                    <MyOrder />
+                  </UserLoggedIn>
+                }
+              />
+              <Route
+                path='my-profile'
+                element={
+                  <UserLoggedIn>
+                    <MyProfile />
+                  </UserLoggedIn>
+                }
+              />
+              <Route index element={<MyProfile />} />
+            </Route>
+          ) : null}
 
-          <Route path='/about' element={<Contact />}></Route>
           <Route path='/about' element={<About />}></Route>
+          <Route path='/contact' element={<Contact />}></Route>
           <Route path='/product/:type/:id' element={<Product />}></Route>
           <Route path='login' element={<LoginPage />} />
 

@@ -20,9 +20,14 @@ const Hero = () => {
           className='image-container'
           style={{
             background: `url(${heroBg}) center center/ contain no-repeat`,
+            height: '100vh',
           }}
         >
-          <img src={hero} alt='hero-img' className='hero-img w-100' />
+          <img
+            src={hero}
+            alt='hero-img'
+            className='hero-img w-100 h-100 o-contain'
+          />
         </div>
       </div>
     </HeroWrapper>
@@ -35,21 +40,43 @@ const HeroWrapper = styled.section`
   .hero-container {
     background-color: var(--primary-bg-color);
     grid-template-columns: 1fr 1fr;
-    align-items:center;
+    align-items: center;
     gap: 5rem;
 
-    overflow:hidden;
-     height :100vh;
+    overflow: hidden;
+  }
+
+  .text-container {
+    .hero-women {
+      color: rgba(0, 0, 0, 0.6);
+      display: block;
+      margin-bottom: 1.2rem;
+      text-transform: uppercase;
+    }
+  }
+
+@media(max-width : 69rem) {
+  .hero-container .image-container{
+    height : auto !important;
+  }
 }
 
-    .text-container {
-      .hero-women {
-        color: rgba(0, 0, 0, 0.6);
-        display: block;
-        margin-bottom: 1.2rem;
-        text-transform : uppercase;
+  @media (max-width: 25em) {
+    .hero-container {
+      height : auto;
+    grid-template-columns: initial;
+    .text-container{
+      text-align: center;
+       margin: 6.4rem 0 4rem;
+    } 
+    .image-container{
+      text-align :center;
+     
+      img {
+        width :60%;
       }
     }
- 
+    } 
+  }
   }
 `

@@ -1,4 +1,4 @@
-import { useCallback, useRef, useState, useEffect } from 'react'
+import { useRef, useState, useEffect } from 'react'
 import ReactDOM from 'react-dom'
 import { capital } from '../../utils'
 import styled from 'styled-components'
@@ -6,34 +6,24 @@ import { useDispatch, useSelector } from 'react-redux'
 import { close, next_arrow, prev_arrow } from '../../assets/icons'
 import { CLOSE_QUICK_VIEW } from '../../redux/Slice/cart-modal/cartModalSlice'
 import ModalOverlay from '../Cart/ModalOverlay'
+import { useButton } from '../../hooks/useButton'
 
 const QuickViewModal = () => {
+  const timerRef = useRef(null)
+  const dispatch = useDispatch()
+  const [isSelectedColor, setIsSelectedColor] = useState(null)
+
   const { data } = useSelector(state => state.cartModal)
   const { images, name, price, category, description, productDetails } = data
-
-  console.log(data)
-  const dispatch = useDispatch()
-  const [onHover, setOnHover] = useState(null)
-  const [currImgIndex, setCurrImgIndex] = useState(0)
-  const timerRef = useRef(null)
-
-  const handleNextImage = useCallback(() => {
-    let newIndex = currImgIndex + 1
-    if (newIndex >= images.length) {
-      setCurrImgIndex(0)
-    } else {
-      setCurrImgIndex(newIndex)
-    }
-  }, [currImgIndex, images])
-
-  const handlePrevImage = () => {
-    let newIndex = currImgIndex - 1
-    if (newIndex < 0) {
-      setCurrImgIndex(images.length - 1)
-    } else {
-      setCurrImgIndex(newIndex)
-    }
-  }
+  const { num, prevButton, nextButton } = useButton(
+    `${
+      isSelectedColor
+        ? productDetails.findIndex(item => item.color === isSelectedColor)
+        : 0
+    }`,
+    `${images.length - 1}`
+  )
+  console.log('called')
   //for autoplay image
   // useEffect(() => {
   //   if (timerRef.current) {
@@ -57,28 +47,20 @@ const QuickViewModal = () => {
             >
               <img src={close} alt='close' />
             </div>
-            <div
-              className='left-container d-flex a-center'
-              onMouseEnter={() => setOnHover(true)}
-              onMouseLeave={() => setOnHover(false)}
-            >
+            <div className='left-container d-flex a-center'>
               <div
-                onClick={() => handleNextImage()}
-                className={`next-prev-btn next ${onHover ? 'show-btn' : null}`}
+                onClick={() => nextButton()}
+                className='next-prev-btn c-pointer next'
               >
                 <img src={next_arrow} alt='next-btn' />
               </div>
               <div
-                onClick={() => handlePrevImage()}
-                className={`next-prev-btn prev ${onHover ? 'show-btn' : null}`}
+                onClick={() => prevButton()}
+                className='next-prev-btn c-pointer prev'
               >
                 <img src={prev_arrow} alt='prev-btn' />
               </div>
-              <img
-                src={images[currImgIndex]}
-                alt=''
-                className='w-100 h-100 main-img'
-              />
+              <img src={images[num]} className='w-100 h-100 main-img' />
             </div>
             <div className='right-container'>
               <span className='sub-heading'>{category}</span>
@@ -89,8 +71,14 @@ const QuickViewModal = () => {
                 return (
                   <button
                     key={item.color}
-                    className='p-s-tb btn-trans color-btn'
-                    style={{ border: '1px solid rgba(0, 0, 0, 0.14)' }}
+                    className='p-s-tb btn-trans color-btn c-pointer mr-s'
+                    style={{
+                      border:
+                        item.color === isSelectedColor
+                          ? '1px solid #000000'
+                          : '1px solid rgba(0, 0, 0, 0.14)',
+                    }}
+                    onClick={() => setIsSelectedColor(item.color)}
                   >
                     {item.color}
                   </button>
@@ -147,16 +135,13 @@ const Wrapper = styled.section`
         }
         .next {
           right: 2rem;
-          transform: translateX(200%);
         }
         .prev {
           left: 2rem;
-          transform: translateX(-200%);
         }
-        .show-btn {
+
+        &:hover .next-prev-btn {
           opacity: 1;
-          height: auto;
-          transform: translateX(0);
         }
       }
     }

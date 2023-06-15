@@ -5,9 +5,9 @@ import { fb, insta, tw } from '../../assets/icons'
 const Subscribe = () => {
   return (
     <Wrapper className='sub-section text-center'>
-      <div className='container'>
+      <div>
         <div className='sub-container ptb-l'>
-          <h2 className='secondary-heading'>
+          <h2 className='secondary-heading sub'>
             Subscribe To Get Offers In Your Inbox
           </h2>
           <div className='sub-input-btn d-flex w-50 mb-l m-auto-lr'>
@@ -20,13 +20,13 @@ const Subscribe = () => {
           </div>
           <div className='social-links'>
             <ul className='d-flex-j-center a-center gap-1 social-icons-list'>
-              <li style={{}} className='d-flex-j-center a-center'>
+              <li className='d-flex-j-center a-center c-pointer'>
                 <img src={fb} alt='' className='w-1-icon' />
               </li>
-              <li className='d-flex-j-center a-center'>
+              <li className='d-flex-j-center a-center c-pointer'>
                 <img src={tw} alt='' className='w-1-icon' />
               </li>
-              <li className='d-flex-j-center a-center'>
+              <li className='d-flex-j-center a-center c-pointer'>
                 <img src={insta} alt='' className='w-1-icon' />
               </li>
             </ul>
@@ -54,14 +54,23 @@ const Wrapper = styled.section`
     }
     .social-icons-list {
       li {
-        color: red;
         background-color: #fff;
         padding: 0.8rem;
-        cursor: pointer;
         &:hover {
           background-color: var(--primary-bg-color);
         }
       }
+    }
+  }
+  @media (max-width: 25em) {
+    .sub-input-btn {
+      flex-direction: column;
+    }
+    .email-input {
+      margin-bottom: 2rem;
+    }
+    .sub-container sub {
+      padding: 1.2rem;
     }
   }
 `

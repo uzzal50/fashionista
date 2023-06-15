@@ -25,11 +25,13 @@ const UsePage = ({ name, collection, field, value }) => {
   return (
     <Wrapper>
       <div className={`${name}-container container-sw mtb-l`}>
-        <span className='sub-heading title'>Home / {name}</span>
+        <span className='sub-heading title t-capitalize f-d'>
+          Home / {name}
+        </span>
         <h2 className='secondary-heading mb-m'>{capital(name)}</h2>
         <div>
           {' '}
-          <div className='sort-row mtb-m d-flex'>
+          <div className='sort-row mtb-m d-grid'>
             <span className='sub-heading'>
               Showing all {data && data.length} results.
             </span>
@@ -62,12 +64,9 @@ export default UsePage
 
 const Wrapper = styled.section`
   .title {
-    text-transform: capitalize;
-    font-size: 1.4rem;
     margin-bottom: 2.2rem;
   }
   .sort-row {
-    display: grid;
     grid-template-columns: 3fr 1fr;
     align-items: baseline;
   }

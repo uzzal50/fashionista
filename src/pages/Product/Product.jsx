@@ -11,7 +11,6 @@ import {
   Divider,
   SkeletonProductDetails,
 } from '../../components'
-import Popular from '../../components/T-shirt/Popular'
 
 const Product = () => {
   const { data: res, saleData: saleRes } = useSelector(state => state.popular)
@@ -137,5 +136,7 @@ export const Wrapper = styled.section`
         padding: 0.2rem;
       }
     }
+  }
+  @media (max-width: 25em) {
   }
 `

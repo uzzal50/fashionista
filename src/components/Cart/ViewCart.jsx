@@ -27,7 +27,7 @@ const ViewCart = () => {
               className='close-btn'
               onClick={() => dispatch(CLOSE_CART_MODAL())}
             >
-              X
+              <img src={close} className='w-3-icon' alt='' />
             </button>
           </div>
         </div>
@@ -40,7 +40,7 @@ const ViewCart = () => {
             }}
           >
             {cartItems && cartItems.length ? (
-              <div className='cart-items-container'>
+              <div className='cart-items-container w-100'>
                 {cartItems.map(item => {
                   return (
                     <div key={item.idColor} className='item d-grid mb-m'>
@@ -52,6 +52,7 @@ const ViewCart = () => {
                             ).image
                           }
                           alt=''
+                          className='cart-icon'
                           style={{ width: '5rem' }}
                         />
                       </div>
@@ -71,7 +72,7 @@ const ViewCart = () => {
                         <img
                           src={close}
                           alt='close-btn'
-                          className='w-30 mb-xs'
+                          className='w-30 mb-xs close-btn'
                           onClick={() => removeItem(item.idColor)}
                         />
                         <p>${(item.price * item.quantity).toFixed(2)}</p>
@@ -93,12 +94,12 @@ const ViewCart = () => {
                   <p>${cartTotalAmount.toFixed(2)}</p>
                 </div>
                 <hr />
-                <button className='btn w-100 mb-m'>
+                <button className='btn w-100 mb-m f-s'>
                   <Link to='/cart' onClick={() => dispatch(CLOSE_CART_MODAL())}>
                     View Cart
                   </Link>
                 </button>
-                <button className='btn w-100'>
+                <button className='btn w-100 f-s'>
                   <Link
                     to={user ? 'cart/checkout' : 'login'}
                     onClick={() => dispatch(CLOSE_CART_MODAL())}
@@ -169,4 +170,41 @@ const Wrapper = styled.section`
       }
     }
   }
+  @media (max-width: 56em) {
+    .view-cart-container {
+
+
+
+      .content {
+      
+        .cart-items-container {
+            .item {
+    grid-template-columns: 0.6fr 4fr 1fr !important;
+}
+          .cart-icon {
+            width: 8rem !important;
+          }
+          .close-btn {
+            width : 3rem !important;
+          }
+        }
+      }
+    }
+
+
+  }
+    @media (max-width: 25em) {
+        .view-cart-container {
+      .content {
+        .cart-items-container {
+          .item {
+
+            grid-template-columns: 1fr 3.5fr 1fr !important;
+          }
+          .cart-icon {
+            width: 6rem !important;
+          }
+        }
+    
+    }
 `

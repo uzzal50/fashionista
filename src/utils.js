@@ -1,6 +1,6 @@
 export const navLinkStyles = ({ isActive }) => {
   return {
-    borderBottom: isActive ? '1px solid var(--primary)' : '',
+    opacity: isActive ? '0.6' : '1',
     boxSizing: isActive ? 'content-box' : null,
   }
 }
@@ -17,12 +17,6 @@ export const sideBarlinks = [
   { label: 'Wishlist', link: 'my-wishlist' },
 ]
 
-export const optionColors = [
-  { label: 'Black', value: 'black' },
-  { label: 'White', value: 'white' },
-  { label: 'Orange', value: 'orange' },
-]
-
 export const capital = word => {
   return word.charAt(0).toUpperCase() + word.slice(1)
 }
@@ -32,5 +26,7 @@ export const mainNav = [
   { name: 'men', route: 'men' },
   { name: 'women', route: 'women' },
   { name: 'about', route: 'about' },
-  { name: 'contact', route: 'about' },
+  { name: 'contact', route: 'contact' },
+  { name: 'login', route: 'login', class: 'login-nav' },
+  { name: 'profile', route: 'profile', class: 'profile-nav' },
 ]

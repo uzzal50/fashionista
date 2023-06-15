@@ -1,17 +1,15 @@
 import styled from 'styled-components'
 import { NavLink } from 'react-router-dom'
 import { useAuthContext } from '../../hooks/useAuthContext'
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import upload from '../../assets/icons/upload.svg'
 import { sidebarStyles, sideBarlinks } from '../../utils'
 import { useFirestore } from '../../hooks/useFirestore'
 import { useCollection } from '../../hooks/useCollection'
-import {
-  OPEN_MESSAGE,
-  CLOSE_MESSAGE,
-} from '../../redux/Slice/Message/messageSlice'
+import { OPEN_MESSAGE } from '../../redux/Slice/Message/messageSlice'
+import bgImage from '../../assets/bgImage.png'
 import { useDispatch } from 'react-redux'
-import { useRef } from 'react'
+import { useLoad } from '../../hooks/useLoad'
 
 const ProfileSidebar = () => {
   const { user } = useAuthContext()
@@ -20,6 +18,7 @@ const ProfileSidebar = () => {
   const { changeProfilePic, response } = useFirestore('users')
   const dispatch = useDispatch()
   const inputRef = useRef(null)
+  const { onLoad, ref } = useLoad('profileImg')
 
   const fetchUsers = async () => {
     const loggedUser = await data.find(item => item.id === user.uid)
@@ -76,7 +75,10 @@ const ProfileSidebar = () => {
     <Wrapper>
       <div className='profile-order-sidebar d-flex'>
         <div className='profile-details-top'>
-          <div className='image-container'>
+          <div
+            className='image-container p-relative'
+            style={{ backgroundImage: `url(${bgImage})` }}
+          >
             <input
               type='file'
               id='user-profile'
@@ -89,10 +91,12 @@ const ProfileSidebar = () => {
             <img src={upload} className='upload-btn' />
 
             <img
+              ref={ref}
               src={imageUrl && imageUrl}
               alt='avatar'
               style={{ objectFit: 'cover' }}
-              className='w-100 h-100'
+              className='w-100 h-100 profile-image'
+              onLoad={onLoad}
             />
           </div>
           <h2 className='secondary-heading text-center mb-xs'>
@@ -113,7 +117,7 @@ const ProfileSidebar = () => {
                       window.scroll({ top: 0, behavior: 'smooth' })
                     }
                   >
-                    <p className='t-capitalize'>{sidebar.label}</p>
+                    <p className='t-capitalize f-s'>{sidebar.label}</p>
                     <span>{' > '}</span>
                   </NavLink>
                 </li>
@@ -133,7 +137,6 @@ const Wrapper = styled.section`
     flex-direction: column;
     gap: 3.6rem;
     .image-container {
-      position: relative;
       border-radius: 50%;
       overflow: hidden;
       height: 27rem;
@@ -153,11 +156,14 @@ const Wrapper = styled.section`
         transform: translate(-50%, 0);
         z-index: 2;
         opacity: 0;
-      }
-
-      img {
         transition: all ease 0.5s;
       }
+
+      .profile-image {
+        opacity: 0;
+        transition: opacity ease-in-out 2s;
+      }
+
       &:hover {
         background-color: rgba(0, 0, 0, 0.7);
       }
@@ -174,6 +180,25 @@ const Wrapper = styled.section`
       transition: background-color ease-in-out 0.2s;
       &:hover {
         background-color: var(--primary-bg-color);
+      }
+    }
+    .loaded .profile-image {
+      opacity: 1;
+    }
+  }
+  @media (max-width: 56em) {
+    .profile-order-sidebar .image-container {
+      margin: 0;
+    }
+  }
+
+  @media (max-width: 25em) {
+    .profile-order-sidebar {
+      .image-container {
+        width: 25rem;
+        height: 25rem;
+        margin-left: auto;
+        margin-right: auto;
       }
     }
   }

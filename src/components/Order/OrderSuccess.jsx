@@ -26,7 +26,7 @@ const OrderSuccess = () => {
           Thanks For Ordering We will Call You to Deliver your Product.{' '}
         </h3>
         <Link to='/profile/my-order'>
-          <button className='btn'>View Order</button>
+          <button className='btn f-d'>View Order</button>
         </Link>
       </div>
     </div>

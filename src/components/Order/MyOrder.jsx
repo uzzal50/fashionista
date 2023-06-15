@@ -1,18 +1,21 @@
 import { useEffect, useState } from 'react'
+import styled from 'styled-components'
 import { capital } from '../../utils'
 import { Link } from 'react-router-dom'
 import { down, up } from '../../assets/icons'
 import SkeletonTable from '../skeleton/SkeletonTable'
+import { bgImage } from '../../assets/Navbar'
 import { useAuthContext } from '../../hooks/useAuthContext'
 import { useCollection } from '../../hooks/useCollection'
 import { SAVE_ORDERS, SORT_ORDERS } from '../../redux/Slice/Order/orderSlice'
 import { useDispatch, useSelector } from 'react-redux'
+import { useLoad } from '../../hooks/useLoad'
 
 const MyOrder = () => {
   const { data, loading } = useCollection('orders')
   const { user } = useAuthContext()
   const [isOpen, setIsOpen] = useState(false)
-
+  const { onLoad, ref } = useLoad('order-image')
   const dispatch = useDispatch()
   const { copiedOrderDetails } = useSelector(state => state.order)
   const fetchUserOrders = async () => {
@@ -38,7 +41,7 @@ const MyOrder = () => {
   }
 
   return (
-    <>
+    <Wrapper>
       <div className='profile-order-dashboard-container'>
         <div className='title-sort-container d-flex j-space-between a-center mb-m'>
           <h3 className='tertiary-heading'>My Orders</h3>
@@ -57,15 +60,15 @@ const MyOrder = () => {
           <div className='accordion-container orders-accordion d-flex-d-column-g'>
             {copiedOrderDetails.map((item, index) => {
               return (
-                <div className='accordion-item order-item' key={index}>
+                <div className='accordion-item order-item ' key={index}>
                   <div className='accordion-heading'>
-                    <div className='order-item-btn w-100'>
-                      <div className='d-flex' style={{ gap: '8rem' }}>
+                    <div className='order-item-btn w-100 p-relative b-none d-flex a-center j-space-between '>
+                      <div className='d-flex inner-first-part'>
                         <div className='order-item__col'>
                           <div className='order-item__col__label'>
                             <span className='sub-heading'>Order Id</span>
                           </div>
-                          <div className='order-item__col__value'>
+                          <div className='order-item__col__value_id'>
                             <p>{item.id}</p>
                           </div>
                         </div>
@@ -116,9 +119,9 @@ const MyOrder = () => {
                           handleToggle(index)
                         }}
                       >
-                        <h3 className='tertiary-heading mr-s c-pointer'>
+                        <p className='f-s mr-s c-pointer show-order'>
                           {index === isOpen ? 'Hide' : 'Show'} Order
-                        </h3>
+                        </p>
 
                         <img
                           src={isOpen ? up : down}
@@ -129,7 +132,7 @@ const MyOrder = () => {
                     </div>
                   </div>
                   {index === isOpen ? (
-                    <div className='accordion-body'>
+                    <div className='accordion-body p-m'>
                       <div className='cartItems-order'>
                         {copiedOrderDetails[index].cartItems.map(item => {
                           return (
@@ -137,11 +140,16 @@ const MyOrder = () => {
                               className='cart-items d-flex a-center mb-m'
                               key={item.id}
                             >
-                              <div className='cart-items-details d-flex'>
-                                <div className='img-container w-15 mr-s'>
+                              <div className='cart-items-details d-flex '>
+                                <div
+                                  className='img-container w-15 mr-s'
+                                  style={{ backgroundImage: `url(${bgImage})` }}
+                                >
                                   <img
                                     src={item.addedItem.image}
                                     className='w-100 h-100'
+                                    ref={ref}
+                                    onLoad={onLoad}
                                   />
                                 </div>
 
@@ -200,8 +208,85 @@ const MyOrder = () => {
           </div>
         )}
       </div>
-    </>
+    </Wrapper>
   )
 }
 
 export default MyOrder
+const Wrapper = styled.div`
+ .accordion-item {
+      .order-item-btn {
+        flex-wrap: wrap;
+         padding: 0.6rem 1.6rem;
+        font-family: inherit;
+        border-radius: 4px;   
+        background-color: #fdf6f5;
+        .order-item__col__label {
+          .sub-heading {
+            margin-bottom: 0.2rem;
+            text-transform: capitalize;
+          }
+        }
+      
+      }
+    }
+    .accordion-body {
+     
+      box-shadow: 0 4px 4px rgba(0, 0, 0, 0.08);
+      transition: all ease-in-out 3s;
+      .cart-items-details {
+        .img-container {
+          img {
+            opacity :0;
+            transition : opacity 0.8s ease-in-out 0s
+          }
+        }
+        .loaded {
+          img {
+            opacity : 1;
+          }
+        }
+            flex: 1;
+            .text-container{
+              flex-direction: column;
+               padding: 1rem 0;
+            }
+        }
+      }
+    }
+  .inner-first-part {
+    gap: 8rem;
+  }
+  .order-item__col__value_id p {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 15rem;
+  }
+
+    @media (max-width: 56em) {
+      .inner-first-part {
+    gap: 3rem;
+;
+}
+    }
+
+  @media (max-width: 25em) {
+    .accordion-container .accordion-item .order-item-btn {
+      padding: 0.6rem 1rem;
+      gap: 0.5rem;
+      .inner-first-part {
+        gap: 1.5rem;
+      }
+      .show-order {
+        display: none;
+      }
+    }
+    .accordion-body .cart-items-details .img-container {
+      width: 25%;
+    }
+    .order-item__col__value_id p {
+      max-width: 3rem;
+    }
+  }
+`

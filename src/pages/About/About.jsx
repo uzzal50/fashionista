@@ -3,7 +3,9 @@ const About = () => {
   return (
     <>
       <Divider />
-      About
+      <div className='container-xsw mtb-l'>
+        <h3>About</h3>
+      </div>
     </>
   )
 }

@@ -15,7 +15,7 @@ const Men = () => {
               The base collection -Ideal every day.
             </h2>
             <Link to='/men'>
-              <button className='btn mtb-s shop-now w-30'>shop now</button>
+              <button className='btn mtb-s shop-now'>shop now</button>
             </Link>
           </div>
         </div>
@@ -43,4 +43,9 @@ const Wrapper = styled.section`
       }
     }
   }
+  @media (max-width: 25em) {
+.men-container{
+  grid-template-columns: repeat(1, 1fr);
+
+}
 `

@@ -1,7 +1,13 @@
-import Navbar from '../../components/Navbar/Navbar'
-
+import { Divider } from '../../components'
 const Contact = () => {
-  return <div></div>
+  return (
+    <>
+      <Divider />
+      <div className='mtb-l container-xsw'>
+        <h3>Contact</h3>
+      </div>
+    </>
+  )
 }
 
 export default Contact
