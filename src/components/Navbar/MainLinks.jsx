@@ -21,8 +21,8 @@ const MainLinks = ({ setShowLinks, showLinks }) => {
 
   return (
     <>
-      <div className='nav-left' ref={navsLinkContainerRef}>
-        <ul ref={navLinksRef} className='nav-links h-100 '>
+      <div className='nav-left h-100' ref={navsLinkContainerRef}>
+        <ul ref={navLinksRef} className='nav-links d-flex h-100 gap-2'>
           {mainNav.map(nav => {
             return (
               <li
@@ -44,7 +44,7 @@ const MainLinks = ({ setShowLinks, showLinks }) => {
           })}
           {user ? (
             <li
-              className='h-100 d-flex a-center profile-nav'
+              className='profile-nav d-flex a-center h-100 d-hidden'
               onClick={() => setShowLinks(!showLinks)}
             >
               <NavLink
@@ -58,7 +58,7 @@ const MainLinks = ({ setShowLinks, showLinks }) => {
           ) : null}
 
           <li
-            className='h-100 d-flex a-center profile-nav'
+            className='login-logout-nav d-flex a-center h-100 d-hidden'
             onClick={() => {
               setShowLinks(!showLinks)
               user ? logout() : null

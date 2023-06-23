@@ -10,17 +10,7 @@ import {
 } from '../../redux/Slice/cart-modal/cartModalSlice'
 
 const TshirtItem = ({ data }) => {
-  const {
-    id,
-
-    name,
-    price,
-    category,
-
-    images,
-    type,
-    discount,
-  } = data
+  const { id, name, price, category, images, type, discount } = data
   const [isHover, setIsHovered] = useState(false)
   const dispatch = useDispatch()
   const imgRef = useRef(null)
@@ -46,7 +36,7 @@ const TshirtItem = ({ data }) => {
                   ref={imgRef}
                   key={i}
                   alt=''
-                  className='t-shirt-img'
+                  className='t-shirt-img w-100 h-100 p-absolute o-cover'
                   onLoad={onLoad}
                 />
               )
@@ -78,7 +68,14 @@ const TshirtItem = ({ data }) => {
         <p className='f-s fw-500 mb-xs'>
           {name.charAt(0).toUpperCase() + name.slice(1)}
         </p>
-        <p className='price'>${price}.00</p>
+        <div className='d-flex a-center gap-2'>
+          <p className={`price fw-700 ${discount ? 'sale-price' : null}`}>
+            Rs. {price}
+          </p>
+          {discount ? (
+            <p className='price fw-700'>Rs. {(price * discount) / 100}</p>
+          ) : null}
+        </div>
       </div>
     </ItemWrapper>
   )
@@ -92,14 +89,8 @@ const ItemWrapper = styled.article`
     min-height: 35rem;
     background-position: center;
     background-size: cover;
-
     .t-shirt-img {
-      position: absolute;
-      object-fit: cover;
-
       inset: 0;
-      width: 100%;
-      height: 100%;
       opacity: 0;
       transition: opacity 0.5s ease-in-out;
     }
@@ -166,7 +157,6 @@ const ItemWrapper = styled.article`
   }
   .box {
     .price {
-      font-weight: 700;
       color: var(--sub-heading-color);
     }
   }

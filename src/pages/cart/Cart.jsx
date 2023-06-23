@@ -98,7 +98,7 @@ const Wrapper = styled.section`
         border-top: 1px solid #dddddd;
         &::before {
           content: attr(data-title) ': ';
-          font-weight: 700;
+          font-weight: 400;
           float: left;
         }
       }

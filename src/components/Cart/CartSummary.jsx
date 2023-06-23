@@ -24,34 +24,34 @@ const CartSummary = ({}) => {
         <tbody>
           <tr>
             <td>
-              <div className='d-grid total'>
-                <p className=''>Subtotal </p>
-                <p>${cartTotalAmount.toFixed(2)}</p>
+              <div className='d-flex a-center j-space-between mb-xs'>
+                <p>Subtotal </p>
+                <p>Rs. {cartTotalAmount}</p>
               </div>
               <hr />
             </td>
           </tr>
           <tr>
             <td>
-              <div className='d-grid total'>
-                <p className=''>Shipping </p>
-                <p>$10.00</p>
+              <div className='d-flex a-center j-space-between mb-xs'>
+                <p>Shipping </p>
+                <p>Rs. 10</p>
               </div>
               <hr />
             </td>
           </tr>
           <tr>
             <td>
-              <div className='d-grid total'>
-                <p className=''>Total </p>
-                <p>${(cartTotalAmount + 10).toFixed(2)} </p>
+              <div className='d-flex a-center j-space-between mb-xs'>
+                <p>Total </p>
+                <p>Rs. {cartTotalAmount + 10} </p>
               </div>
               <hr />
             </td>
           </tr>
           <tr>
             <td>
-              <button className='btn f-d'>
+              <button className='btn f-d w-100'>
                 <Link to={user ? 'checkout' : '/login'}>
                   {user ? 'Proceed To CheckOut.' : 'Login To Checkout.'}
                 </Link>
@@ -65,10 +65,4 @@ const CartSummary = ({}) => {
 }
 
 export default CartSummary
-const Wrapper = styled.div`
-  .total {
-    grid-template-columns: 1fr 1fr;
-    justify-items: flex-start;
-    padding: 0.6rem;
-  }
-`
+const Wrapper = styled.div``

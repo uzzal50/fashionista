@@ -22,7 +22,7 @@ const CartItemBody = ({ cartItems }) => {
               </p>
             </td>
             <td data-title='Price'>
-              <p>${item.price}.00</p>
+              <p>Rs. {item.price}</p>
             </td>
             <td data-title='Quantity'>
               <QtyButtons
@@ -32,7 +32,7 @@ const CartItemBody = ({ cartItems }) => {
               />
             </td>
             <td data-title='SubTotal'>
-              <p>${(item.quantity * item.price).toFixed(2)}</p>
+              <p>Rs. {item.quantity * item.price}</p>
             </td>
             <td data-title='Remove'>
               <img

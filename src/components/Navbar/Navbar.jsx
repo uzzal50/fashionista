@@ -25,27 +25,30 @@ const Navbar = () => {
 
   return (
     <>
-      <NavContainer className='header-wrapper d-grid'>
+      <NavContainer className='header-wrapper d-grid a-center gap-2'>
         <div className='nav-center'>
           <Logo showLinks={showLinks} setShowLinks={setShowLinks} />
         </div>
         <MainLinks showLinks={showLinks} setShowLinks={setShowLinks} />
-        <div className='cart-search-container'>
+        <div className='cart-search-container d-flex a-center'>
           <div
             className='search-icon'
             onClick={() => dispatch(OPEN_SEARCH_MODAL())}
           >
             <img src={search} alt='search-icon' className='w-2-icon' />
           </div>
-          <div className='cart-container'>
-            <span className='total'> $ {cartTotalAmount.toFixed(2)}</span>
-            <div className='cart-value-container'>
+          <div className='cart-container d-flex a-center'>
+            <span className='total mr-s fw-700'>
+              {' '}
+              Rs. {cartTotalAmount.toFixed(2)}
+            </span>
+            <div className='cart-value-container p-relative '>
               <div
                 onClick={() => dispatch(OPEN_CART_MODAL())}
                 style={{ cursor: 'pointer' }}
               >
-                <img src={cart} alt='cart' className='cart-icon' />
-                <span className='cart-value d-flex-j-center a-center'>
+                <img src={cart} alt='cart' className='cart-icon w-2-icon' />
+                <span className='cart-value d-flex-j-center a-center p-absolute bg-default c-default f-xs'>
                   {cartTotalQuantity}
                 </span>
               </div>
@@ -53,7 +56,7 @@ const Navbar = () => {
           </div>
 
           {!user && (
-            <div className='d-flex register-container'>
+            <div className='register-container d-flex-j-center a-center'>
               <div className='login'>
                 <Link to='login'>log in</Link>
               </div>
@@ -71,25 +74,11 @@ export default Navbar
 const NavContainer = styled.header`
   grid-template-columns: 1fr auto 1fr;
   min-height: 8rem;
-  align-items: center;
-  grid-column-gap: 2rem;
-  .nav-left {
-    height: 100%;
-  }
   .nav-links {
     list-style: none;
     text-transform: uppercase;
-    display: flex;
-    gap: 1.8rem;
-    .login-nav,
-    .profile-nav,
-    .login-logout-nav {
-      display: none;
-    }
-
     li {
       transition: all ease-in-out 0.2s;
-
       &:hover {
         opacity: 0.6;
       }
@@ -99,44 +88,21 @@ const NavContainer = styled.header`
     height: 4rem;
   }
   .cart-search-container {
-    display: flex;
-    align-items: center;
     justify-content: end;
     gap: 5rem;
-
     .cart-container {
-      display: flex;
-      align-items: center;
-      .total {
-        margin-right: 2rem;
-        font-weight: 700;
-      }
       .cart-value-container {
-        position: relative;
-        .cart-icon {
-          width: 2rem;
-        }
         .cart-value {
-          position: absolute;
           width: 1.7rem;
           height: 1.7rem;
-          background-color: rgb(0, 0, 0);
-          color: rgb(255, 255, 255);
-
           top: -1rem;
           left: 1rem;
           border-radius: 50%;
-          font-size: 1.2rem;
         }
       }
     }
     .login a {
       text-transform: uppercase;
-    }
-    .register-container {
-      gap: 1.2rem;
-      align-items: center;
-      justify-content: center;
     }
   }
 

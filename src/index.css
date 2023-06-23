@@ -134,6 +134,13 @@ p {
 .f-w-300 {
   font-weight: 300;
 }
+
+.fw-500 {
+  font-weight: 500;
+}
+.fw-700 {
+  font-weight: 700;
+}
 /* -----TYPOGRAPHY----- */
 
 .btn {
@@ -445,6 +452,14 @@ li {
   width: 10%;
 }
 
+.bg-default {
+  background-color: var(--primary);
+}
+
+.c-default {
+  color: var(--primary-bg-color);
+}
+
 .lds-dual-ring {
   display: inline-block;
   width: 2rem;
@@ -476,7 +491,8 @@ table {
   border-collapse: collapse;
   width: 100%;
 }
-.shopping-cart-table thead {
+.shopping-cart-table thead,
+.cart-totals-container thead {
   background-color: var(--primary-bg-color);
 }
 th {
@@ -596,6 +612,11 @@ ul.react-star-rate.go4197845992.go4038925149.react-star-rate--ltr.go1912087031 {
 .img-container .loaded img,
 .image-container .loaded img {
   opacity: 1 !important;
+}
+
+.sale-price {
+  text-decoration: line-through;
+  text-decoration-thickness: 2px;
 }
 
 /* 1100px */

@@ -106,7 +106,20 @@ const Product = () => {
                   <h3 className='secondary-heading mb-m'>
                     {name.charAt(0).toUpperCase() + name.slice(1)}
                   </h3>
-                  <h3 className='tertiary-heading mb-s'>${price}.00</h3>
+                  <div className='d-flex a-center gap-2'>
+                    <p
+                      className={`sub-heading t-capitalize f-m fw-500  mb-s ${
+                        discount ? 'sale-price' : null
+                      }`}
+                    >
+                      Rs.{price}
+                    </p>
+                    {discount ? (
+                      <p className='sub-heading t-capitalize f-m fw-500 '>
+                        Rs. {(price * discount) / 100}
+                      </p>
+                    ) : null}
+                  </div>
 
                   <AddToCart
                     product={{ ...data, id }}

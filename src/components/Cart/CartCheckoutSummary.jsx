@@ -36,7 +36,7 @@ const CartCheckoutSummary = () => {
                     </p>
                   </div>
                   <p className='sub-heading sub-text m-0'>
-                    ${(item.quantity * item.price).toFixed(2)}
+                    Rs. {item.quantity * item.price}
                   </p>
                 </div>
               )
@@ -45,20 +45,18 @@ const CartCheckoutSummary = () => {
           <hr />
           <div className='content-heading d-flex j-space-between a-center p-m'>
             <p className='sub-heading sub-text m-0'>Subtotal</p>
-            <p className='sub-heading sub-text m-0'>
-              ${cartTotalAmount.toFixed(2)}
-            </p>
+            <p className='sub-heading sub-text m-0'>Rs. {cartTotalAmount}</p>
           </div>
           <hr />
           <div className='sub-total d-flex j-space-between a-center p-m'>
             <p className='sub-heading sub-text m-0'>Shipping Cost</p>
-            <p className='sub-heading sub-text m-0'>$10.00</p>
+            <p className='sub-heading sub-text m-0'>Rs. 10</p>
           </div>
           <hr />
           <div className='total-order-cost d-flex j-space-between a-center p-m'>
             <p className='sub-heading sub-text m-0 f-m'>Total</p>
             <p className='sub-heading sub-text m-0 f-m'>
-              ${(cartTotalAmount + 10).toFixed(2)}
+              Rs. {cartTotalAmount + 10}
             </p>
           </div>
         </div>
