@@ -5,7 +5,6 @@ import { useDispatch } from 'react-redux'
 import SkeletonCard from '../skeleton/SkeletonCard'
 import { useCollection } from '../../hooks/useCollection'
 import { LOAD_POPULAR, LOAD_SALE } from '../../redux/Slice/popular/PopularSlice'
-import { SAVE_ALL_DOUMENTS } from '../../redux/Slice/sort/sortSlice'
 
 const Popular = ({ type }) => {
   const dispatch = useDispatch()
@@ -19,6 +18,7 @@ const Popular = ({ type }) => {
       dispatch(LOAD_SALE(data))
     }
   }, [success])
+  console.log(data)
 
   return (
     <PopularWrapper className='popular-tshirts mtb-l text-center'>
@@ -31,7 +31,7 @@ const Popular = ({ type }) => {
           {loading
             ? [1, 2, 3, 4].map(item => <SkeletonCard key={item} />)
             : data &&
-              data.map(item => {
+              data.slice(0, 4).map(item => {
                 return <TshirtItem data={item} key={item.id} type={type} />
               })}
         </div>

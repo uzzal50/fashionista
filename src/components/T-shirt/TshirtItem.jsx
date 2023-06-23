@@ -12,11 +12,12 @@ import {
 const TshirtItem = ({ data }) => {
   const {
     id,
-    thumbnailPhoto,
+
     name,
     price,
     category,
-    productDetails,
+
+    images,
     type,
     discount,
   } = data
@@ -35,16 +36,21 @@ const TshirtItem = ({ data }) => {
       >
         <Link to={`/product/${type}/${id}`}>
           <div
-            className='img-container'
+            className='img-container w-100 h-100'
             style={{ backgroundImage: `url(${bgImage})` }}
           >
-            <img
-              ref={imgRef}
-              src={isHover ? productDetails[0].image : thumbnailPhoto}
-              alt='img'
-              className='w-100 h-100 t-shirt-img'
-              onLoad={onLoad}
-            />
+            {images.map((item, i) => {
+              return (
+                <img
+                  src={item}
+                  ref={imgRef}
+                  key={i}
+                  alt=''
+                  className='t-shirt-img'
+                  onLoad={onLoad}
+                />
+              )
+            })}
           </div>
         </Link>
 
@@ -69,7 +75,7 @@ const TshirtItem = ({ data }) => {
       </div>
       <div className='box p-m'>
         <p className='sub-heading mb-xs'>{category}</p>
-        <p className='f-m fw-500 mb-xs'>
+        <p className='f-s fw-500 mb-xs'>
           {name.charAt(0).toUpperCase() + name.slice(1)}
         </p>
         <p className='price'>${price}.00</p>
@@ -90,14 +96,27 @@ const ItemWrapper = styled.article`
     .t-shirt-img {
       position: absolute;
       object-fit: cover;
-      object-position: center;
 
+      inset: 0;
+      width: 100%;
+      height: 100%;
       opacity: 0;
-      transition: all 0.3s ease-in-out;
+      transition: opacity 0.5s ease-in-out;
     }
     &.loaded {
       .t-shirt-img {
-        opacity: 1;
+        opacity: 0;
+        &:last-child {
+          opacity: 1;
+        }
+      }
+      &:hover .t-shirt-img {
+        &:nth-child(1) {
+          opacity: 1;
+        }
+        &:last-child {
+          opacity: 0;
+        }
       }
     }
   }

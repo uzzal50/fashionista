@@ -24,7 +24,6 @@ const RegisterForm = () => {
   const { errors } = formState
 
   const onSubmit = data => {
-    console.log('Data', data)
     const { email, password, name, profileImage } = data
     signUp(email, password, name, profileImage)
   }
@@ -53,6 +52,11 @@ const RegisterForm = () => {
               type='text'
               {...register('email', {
                 required: 'Email is Required',
+                pattern: {
+                  value:
+                    /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/,
+                  message: 'Invalid email format',
+                },
               })}
             />
             <p className='error-text'>{errors.email?.message}</p>
