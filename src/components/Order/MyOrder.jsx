@@ -264,10 +264,9 @@ const Wrapper = styled.div`
     max-width: 15rem;
   }
 
-    @media (max-width: 56em) {
+    @media (max-width: 69em) {
       .inner-first-part {
     gap: 3rem;
-;
 }
     }
 
