@@ -3,11 +3,13 @@ import { useState, useRef, useEffect } from 'react'
 import { navLinkStyles, capital, mainNav } from '../../utils'
 import { NavLink } from 'react-router-dom'
 import { useAuthContext } from '../../hooks/useAuthContext'
+import { useLogout } from '../../hooks/useLogout'
 
 const MainLinks = ({ setShowLinks, showLinks }) => {
   const { user } = useAuthContext()
   const navLinksRef = useRef(null)
   const navsLinkContainerRef = useRef(null)
+  const { logout } = useLogout()
 
   useEffect(() => {
     const navLinksHeight = navLinksRef.current.getBoundingClientRect().height
@@ -40,6 +42,38 @@ const MainLinks = ({ setShowLinks, showLinks }) => {
               </li>
             )
           })}
+          {user ? (
+            <li
+              className='h-100 d-flex a-center profile-nav'
+              onClick={() => setShowLinks(!showLinks)}
+            >
+              <NavLink
+                to='profile'
+                style={navLinkStyles}
+                className={`d-flex a-center ${showLinks ? null : 'h-100'}`}
+              >
+                Profile
+              </NavLink>
+            </li>
+          ) : null}
+
+          <li
+            className='h-100 d-flex a-center profile-nav'
+            onClick={() => {
+              setShowLinks(!showLinks)
+              user ? logout() : null
+            }}
+          >
+            <NavLink
+              to={user ? 'logout' : 'login'}
+              style={navLinkStyles}
+              className={`d-flex a-center ${
+                showLinks ? null : 'h-100'
+              } login-logout-nav`}
+            >
+              {user ? 'Logout' : 'Login'}
+            </NavLink>
+          </li>
 
           <li className='admin-list'>
             {user && user.email === 'lhotter7@gmail.com' ? (

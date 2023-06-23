@@ -27,6 +27,4 @@ export const mainNav = [
   { name: 'women', route: 'women' },
   { name: 'about', route: 'about' },
   { name: 'contact', route: 'contact' },
-  { name: 'login', route: 'login', class: 'login-nav' },
-  { name: 'profile', route: 'profile', class: 'profile-nav' },
 ]

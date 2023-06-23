@@ -82,16 +82,14 @@ const NavContainer = styled.header`
     display: flex;
     gap: 1.8rem;
     .login-nav,
-    .profile-nav {
+    .profile-nav,
+    .login-logout-nav {
       display: none;
     }
 
     li {
-      // border-bottom: 1px solid transparent;
       transition: all ease-in-out 0.2s;
-      a {
-        // border-bottom: 1px solid transparent;
-      }
+
       &:hover {
         opacity: 0.6;
       }
@@ -170,7 +168,9 @@ const NavContainer = styled.header`
       .admin-list {
         display: none;
       }
-      .login-nav {
+      .login-nav,
+      .profile-nav,
+      .login-logout-nav {
         display: block;
       }
     }
