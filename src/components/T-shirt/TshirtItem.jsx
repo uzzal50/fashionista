@@ -73,7 +73,9 @@ const TshirtItem = ({ data }) => {
             Rs. {price}
           </p>
           {discount ? (
-            <p className='price fw-700'>Rs. {(price * discount) / 100}</p>
+            <p className='price fw-700'>
+              Rs. {price - (price * discount) / 100}
+            </p>
           ) : null}
         </div>
       </div>

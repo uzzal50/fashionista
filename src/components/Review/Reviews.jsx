@@ -111,7 +111,7 @@ const Wrapper = styled.section`
     }
   }
 
-  @media (max-width: 25em) {
+  @media (max-width: 28em) {
     .prev-button {
       transform: translate(0, -50%);
     }

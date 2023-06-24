@@ -82,7 +82,7 @@ const Wrapper = styled.section`
     grid-template-columns: 3fr 1fr;
     gap: 2.4rem;
   }
-  @media (max-width: 25em) {
+  @media (max-width: 28em) {
     .close-btn {
       width: 2.4rem;
     }

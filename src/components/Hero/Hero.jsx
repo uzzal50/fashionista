@@ -20,7 +20,6 @@ const Hero = () => {
           className='image-container'
           style={{
             background: `url(${heroBg}) center center/ contain no-repeat`,
-            height: '100vh',
           }}
         >
           <img
@@ -55,13 +54,9 @@ const HeroWrapper = styled.section`
     }
   }
 
-@media(max-width : 69rem) {
-  .hero-container .image-container{
-    height : auto !important;
-  }
-}
 
-  @media (max-width: 25em) {
+
+  @media (max-width: 28em) {
     .hero-container {
       height : auto;
     grid-template-columns: initial;

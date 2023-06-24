@@ -116,7 +116,7 @@ const Product = () => {
                     </p>
                     {discount ? (
                       <p className='sub-heading t-capitalize f-m fw-500 '>
-                        Rs. {(price * discount) / 100}
+                        Rs. {price - (price * discount) / 100}
                       </p>
                     ) : null}
                   </div>

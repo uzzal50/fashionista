@@ -42,16 +42,4 @@ const Popular = ({ type }) => {
 
 export default Popular
 
-const PopularWrapper = styled.section`
-  @media (max-width: 25em) {
-    .popular-tshirt-container {
-      grid-template-columns: repeat(2, 1fr);
-    }
-    .popular-tshirt-container .img-container {
-      min-height: 30rem;
-      img {
-        object-position: top;
-      }
-    }
-  }
-`
+const PopularWrapper = styled.section``

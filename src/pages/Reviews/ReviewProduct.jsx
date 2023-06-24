@@ -8,6 +8,7 @@ import { useFirestore } from '../../hooks/useFirestore'
 import { useAuthContext } from '../../hooks/useAuthContext'
 import { OPEN_MESSAGE } from '../../redux/Slice/Message/messageSlice'
 import { useDispatch } from 'react-redux'
+import Divider from '../../components/Navbar/Divider'
 
 const ReviewProduct = () => {
   const { id } = useParams()
@@ -55,69 +56,73 @@ const ReviewProduct = () => {
   }
 
   return (
-    <Wrapper className='mtb-m'>
-      <div className='container'>
-        <h2 className='secondary-heading'>Review Product</h2>
-        <div className='review-container d-grid grid-1-col gap-2'>
-          <div className='order-details'>
-            <p>Product Name : {data && data.name}</p>
-            <span className='sub-heading sub-text mb-m'>
-              Price : ${data && data.price}
-            </span>
-            <div className='image-container d-grid grid-3-col gap-2'>
-              {data &&
-                success &&
-                data.images.map((item, i) => {
-                  return (
-                    <img src={item} alt='' key={i} className='w-100 h-100' />
-                  )
-                })}
+    <>
+      <Divider />
+
+      <Wrapper className='mtb-m'>
+        <div className='container'>
+          <h2 className='secondary-heading'>Review Product</h2>
+          <div className='review-container d-grid grid-1-col gap-2'>
+            <div className='order-details'>
+              <p>Product Name : {data && data.name}</p>
+              <span className='sub-heading sub-text mb-m'>
+                Price : ${data && data.price}
+              </span>
+              <div className='image-container d-grid grid-3-col gap-2'>
+                {data &&
+                  success &&
+                  data.images.map((item, i) => {
+                    return (
+                      <img src={item} alt='' key={i} className='w-100 h-100' />
+                    )
+                  })}
+              </div>
+            </div>
+            <div className='reviews'>
+              <form onSubmit={e => submitReview(e)}>
+                <p className='f-m'>Rating: </p>
+                <div className='mb-m'>
+                  <StarsRating
+                    value={rate}
+                    onChange={rate => {
+                      setRate(rate)
+                    }}
+                  />
+                </div>
+                <p htmlFor='' className='f-m mb-s'>
+                  Review
+                </p>
+                <textarea
+                  className='mb-m'
+                  value={review}
+                  required
+                  style={{ resize: 'none' }}
+                  onChange={e => setReview(e.target.value)}
+                ></textarea>
+                <div className='d-flex a-center'>
+                  <button
+                    className='btn p-m f-d mr-s'
+                    type='submit'
+                    disabled={response.isPending}
+                  >
+                    {response.isPending ? (
+                      <div className='lds-dual-ring'></div>
+                    ) : (
+                      'Submit Review'
+                    )}
+                  </button>
+                  {showReview ? (
+                    <Link to={`/product/${data.type}/${id}`}>
+                      <p className='t-capitalize'>View Review</p>
+                    </Link>
+                  ) : null}
+                </div>
+              </form>
             </div>
           </div>
-          <div className='reviews'>
-            <form onSubmit={e => submitReview(e)}>
-              <p className='f-m'>Rating: </p>
-              <div className='mb-m'>
-                <StarsRating
-                  value={rate}
-                  onChange={rate => {
-                    setRate(rate)
-                  }}
-                />
-              </div>
-              <p htmlFor='' className='f-m mb-s'>
-                Review
-              </p>
-              <textarea
-                className='mb-m'
-                value={review}
-                required
-                style={{ resize: 'none' }}
-                onChange={e => setReview(e.target.value)}
-              ></textarea>
-              <div className='d-flex a-center'>
-                <button
-                  className='btn p-m f-d mr-s'
-                  type='submit'
-                  disabled={response.isPending}
-                >
-                  {response.isPending ? (
-                    <div className='lds-dual-ring'></div>
-                  ) : (
-                    'Submit Review'
-                  )}
-                </button>
-                {showReview ? (
-                  <Link to={`/product/${data.type}/${id}`}>
-                    <p className='t-capitalize'>View Review</p>
-                  </Link>
-                ) : null}
-              </div>
-            </form>
-          </div>
         </div>
-      </div>
-    </Wrapper>
+      </Wrapper>
+    </>
   )
 }
 

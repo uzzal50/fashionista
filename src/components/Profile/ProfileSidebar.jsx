@@ -186,6 +186,11 @@ const Wrapper = styled.section`
       opacity: 1;
     }
   }
+  @media (max-width: 69em) {
+    .profile-order-sidebar .image-container {
+      margin: 0px 0.2rem 1.6rem;
+    }
+  }
   @media (max-width: 56em) {
     .profile-order-sidebar .image-container {
       margin-left: 0;
@@ -194,7 +199,7 @@ const Wrapper = styled.section`
     }
   }
 
-  @media (max-width: 25em) {
+  @media (max-width: 28em) {
     .profile-order-sidebar {
       .image-container {
         width: 25rem;

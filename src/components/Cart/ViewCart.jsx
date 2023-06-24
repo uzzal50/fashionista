@@ -75,7 +75,7 @@ const ViewCart = () => {
                           className='w-30 mb-xs close-btn'
                           onClick={() => removeItem(item.idColor)}
                         />
-                        <p>${(item.price * item.quantity).toFixed(2)}</p>
+                        <p>Rs. {item.price * item.quantity}</p>
                       </div>
                     </div>
                   )
@@ -91,7 +91,7 @@ const ViewCart = () => {
                 <hr />
                 <div className='d-flex sub-total'>
                   <p>Subtotal</p>
-                  <p>${cartTotalAmount.toFixed(2)}</p>
+                  <p>Rs. {cartTotalAmount}</p>
                 </div>
                 <hr />
                 <button className='btn w-100 mb-m f-s'>

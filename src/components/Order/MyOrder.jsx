@@ -91,7 +91,7 @@ const MyOrder = () => {
                             <span className='sub-heading'>Amount</span>
                           </div>
                           <div className='order-item__col__value'>
-                            <p className=' text-center'>${item.amount}.00</p>
+                            <p className=' text-center'>Rs. {item.amount}</p>
                           </div>
                         </div>
                         <div className='order-item__col'>
@@ -125,7 +125,7 @@ const MyOrder = () => {
 
                         <img
                           src={isOpen ? up : down}
-                          style={{ width: '2rem' }}
+                          className='w-2-icon'
                           alt=''
                         />
                       </div>
@@ -155,12 +155,12 @@ const MyOrder = () => {
 
                                 <div className='text-container d-flex'>
                                   <div>
-                                    <p>{capital(item.name)}</p>
-                                    <span className='sub-heading sub-text'>
-                                      Price : ${item.price}.00
+                                    <p className='f-s'>{capital(item.name)}</p>
+                                    <span className='sub-heading sub-text f-d'>
+                                      Price : Rs. {item.price}
                                     </span>
                                   </div>
-                                  <p className='f-s'>
+                                  <p className='f-d'>
                                     Quantity : {item.quantity}
                                   </p>
                                 </div>
@@ -185,16 +185,16 @@ const MyOrder = () => {
                           <div className='cart-items-order-amount'>
                             <div className='d-flex a-center j-space-between sub-total-amount mb-s'>
                               <p className='f-s'>Sub Total </p>
-                              <p className='f-s'>${item.amount.toFixed(2)}</p>
+                              <p className='f-s'>Rs. {item.amount}</p>
                             </div>
                             <div className='d-flex a-center j-space-between shipping-amount mb-s'>
                               <p className='f-s'>Shipping Cost </p>
-                              <p className='f-s'>$10.00</p>
+                              <p className='f-s'>Rs. 10</p>
                             </div>
                             <hr className='mb-s' />
                             <div className='d-flex a-center j-space-between shipping-amount mb-m'>
                               <p className='f-s'>Total Amount </p>
-                              <p>${(item.amount + 10).toFixed(2)}</p>
+                              <p>Rs. {item.amount + 10}</p>
                             </div>
                           </div>
                           <div></div>
@@ -269,8 +269,12 @@ const Wrapper = styled.div`
     gap: 3rem;
 }
     }
+    .cart-items-details .img-container {
+      width : 15%;
+    }
 
-  @media (max-width: 25em) {
+
+  @media (max-width: 28em) {
     .accordion-container .accordion-item .order-item-btn {
       padding: 0.6rem 1rem;
       gap: 0.5rem;

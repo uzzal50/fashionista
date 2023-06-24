@@ -6,12 +6,12 @@ import { Link } from 'react-router-dom'
 const Men = () => {
   return (
     <Wrapper className='men-section mtb-l container-sw'>
-      <div className='men-container'>
+      <div className='men-container grid-2-col gap-3'>
         <div className='left'>
           <img src={men2} alt='men-2' className='w-100' />
-          <div className='text-box'>
+          <div className='text-box text-center'>
             <span className='sub-heading mtb-s'>MEN</span>
-            <h2 className='secondary-heading'>
+            <h2 className='secondary-heading mb-s'>
               The base collection -Ideal every day.
             </h2>
             <Link to='/men'>
@@ -29,23 +29,4 @@ const Men = () => {
 
 export default Men
 
-const Wrapper = styled.section`
-  .men-container {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: 3.2rem;
-    .text-box {
-      text-align: center;
-      h2 {
-        margin-bottom: 1.4rem;
-      }
-      .shop-now {
-      }
-    }
-  }
-  @media (max-width: 25em) {
-.men-container{
-  grid-template-columns: repeat(1, 1fr);
-
-}
-`
+const Wrapper = styled.section``

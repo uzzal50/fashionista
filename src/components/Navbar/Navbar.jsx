@@ -106,6 +106,25 @@ const NavContainer = styled.header`
     }
   }
 
+  @media (max-width: 80em) {
+    grid-template-columns: 0.8fr auto 1fr;
+    .cart-search-container {
+      gap: 3rem;
+    }
+    .profile {
+      gap: 2rem;
+    }
+  }
+  @media (max-width: 69em) {
+    grid-template-columns: 0.5fr auto 1fr;
+    .cart-search-container {
+      gap: 2rem;
+    }
+    .profile {
+      gap: 1rem;
+    }
+  }
+
   @media (max-width: 56em) {
     margin: 1.2rem 0 0;
 

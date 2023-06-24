@@ -49,8 +49,7 @@ const Wrapper = styled.section`
         margin-bottom: 2.4rem;
       }
     }
-    @media (max-width: 25em) {
-      grid-template-columns: initial !important;
+    @media (max-width: 39em) {
       margin-bottom: 0;
       .img-container {
         img {

@@ -62,7 +62,7 @@ const Wrapper = styled.section`
       }
     }
   }
-  @media (max-width: 25em) {
+  @media (max-width: 28em) {
     .sub-input-btn {
       flex-direction: column;
     }

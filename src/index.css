@@ -346,6 +346,9 @@ select:focus {
 .gap-1 {
   gap: 1rem;
 }
+.gap-3 {
+  gap: 3rem;
+}
 .gap-4 {
   gap: 4rem !important;
 }
@@ -619,6 +622,20 @@ ul.react-star-rate.go4197845992.go4038925149.react-star-rate--ltr.go1912087031 {
   text-decoration-thickness: 2px;
 }
 
+.w-7 {
+  width: 8rem;
+}
+
+.t-capitalize {
+  text-transform: capitalize;
+}
+
+.o-contain {
+  object-fit: contain;
+}
+
+/* ------------------RESPONSIVE_____ */
+
 /* 1100px */
 @media (max-width: 69em) {
   html {
@@ -630,7 +647,9 @@ ul.react-star-rate.go4197845992.go4038925149.react-star-rate--ltr.go1912087031 {
   .women-container .item-container {
     grid-template-columns: repeat(3, 1fr);
   }
-
+  .container {
+    padding: 0 2.2rem;
+  }
   .container-xsw {
     padding: 0 2.2rem;
   }
@@ -643,6 +662,10 @@ ul.react-star-rate.go4197845992.go4038925149.react-star-rate--ltr.go1912087031 {
   }
   .other-images .img-container {
     max-height: 30rem;
+  }
+  .register-form-container,
+  .login-section .form-container {
+    width: 40%;
   }
 }
 
@@ -670,15 +693,31 @@ ul.react-star-rate.go4197845992.go4038925149.react-star-rate--ltr.go1912087031 {
 }
 
 /* 600px */
-@media (max-width: 37em) {
-}
-
-/* 400px */
-@media (max-width: 25em) {
+@media (max-width: 39em) {
   html {
     font-size: 50% !important;
   }
 
+  .popular-tshirt-container,
+  .shop-container .item-container,
+  .men-container .item-container,
+  .women-container .item-container {
+    grid-template-columns: repeat(2, 1fr) !important;
+  }
+  .men-container,
+  .women-container,
+  .cart-totals-details-container,
+  .checkout-container,
+  .register-form-container,
+  .profile-order-wrapper,
+  .product-container,
+  .review-container {
+    grid-template-columns: initial !important;
+  }
+}
+
+/* 400px */
+@media (max-width: 28em) {
   .container-sw {
     padding: 0;
   }
@@ -691,39 +730,27 @@ ul.react-star-rate.go4197845992.go4038925149.react-star-rate--ltr.go1912087031 {
     height: 30rem;
   }
 
-  .shop-container .item-container,
-  .men-container .item-container,
-  .women-container .item-container {
-    grid-template-columns: repeat(2, 1fr);
-  }
-
-  .shop-container .img-container {
-    min-height: 30rem !important;
+  .popular-tshirt-container .img-container,
+  .shop-container .img-container,
+  .men-container .img-container,
+  .women-container .img-container {
+    min-height: 32rem !important;
   }
   .login-section .form-container,
   select {
     width: auto;
   }
-  .cart-totals-details-container,
-  .checkout-container,
-  .register-form-container,
-  .profile-order-wrapper,
-  .product-container {
-    grid-template-columns: initial !important;
-  }
+
   .register-form-container {
     width: 80%;
   }
 }
 
-.w-7 {
-  width: 8rem;
-}
-
-.t-capitalize {
-  text-transform: capitalize;
-}
-
-o.contain {
-  object-fit: contain;
+@media (max-width: 25em) {
+  .popular-tshirt-container .img-container,
+  .shop-container .img-container,
+  .men-container .img-container,
+  .women-container .img-container {
+    min-height: 30rem !important;
+  }
 }
