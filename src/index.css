@@ -697,7 +697,9 @@ ul.react-star-rate.go4197845992.go4038925149.react-star-rate--ltr.go1912087031 {
   html {
     font-size: 50% !important;
   }
-
+  h1 {
+    font-size: 3.6rem !important ;
+  }
   .popular-tshirt-container,
   .shop-container .item-container,
   .men-container .item-container,
