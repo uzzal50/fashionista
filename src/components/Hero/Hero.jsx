@@ -7,7 +7,7 @@ const Hero = () => {
   return (
     <HeroWrapper className='top-section'>
       <div className='hero-container d-grid container-sw'>
-        <div className='text-container'>
+        <div className='text-container mtb-xl'>
           <span className='hero-women'>Women</span>
           <h1 className='heading-primary'>
             Slick. Modern. <br></br> Awesome.
