@@ -1,6 +1,5 @@
 import { useForm } from 'react-hook-form'
 import styled from 'styled-components'
-import { DevTool } from '@hookform/devtools'
 import { useDispatch, useSelector } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
 import { useAuthContext } from '../../hooks/useAuthContext'
@@ -9,7 +8,7 @@ import { CLEAR_CART, CALCULATE_TOTAL } from '../../redux/Slice/cart/cartSlice'
 import { PAYMENT_SUCCESS } from '../../redux/Slice/checkout/checkOutSlice'
 import { useFirestore } from '../../hooks/useFirestore'
 import { useEffect } from 'react'
-import { OPEN_MESSAGE } from '../../redux/Slice/Message/messageSlice'
+
 const Checkout = () => {
   const dispatch = useDispatch()
   const navigate = useNavigate()
@@ -179,7 +178,6 @@ const Checkout = () => {
               )}
             </button>
           </form>
-          <DevTool control={control} />
         </div>
         <div className='order-container'>
           <CartCheckoutSummary />
@@ -194,10 +192,5 @@ const Wrapper = styled.section`
   .checkout-container {
     grid-template-columns: 1.5fr 1fr;
     gap: 4.2rem;
-    .customer-information-container {
-      .full-name {
-        gap: 1.2rem;
-      }
-    }
   }
 `
